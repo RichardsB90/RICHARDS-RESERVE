@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRADR — Daily Hub</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg:#0d0d0d;--surface:#141414;--card:#1a1a1a;--border:#2a2a2a;
+    --gold:#c9a84c;--gold-dim:#8a6f30;--gold-glow:rgba(201,168,76,0.10);
+    --green:#4caf7d;--green-bg:rgba(76,175,125,0.08);
+    --amber:#e0a030;--amber-bg:rgba(224,160,48,0.08);
+    --red:#e05555;--red-bg:rgba(224,85,85,0.08);
+    --text:#e8e0d0;--muted:#888070;--faint:#1f1f1f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;padding:32px 20px 60px;max-width:860px;margin:0 auto;}
+
+  /* HEADER */
+  .header{text-align:center;margin-bottom:10px;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:10px;}
+  .header h1{font-family:'Cinzel',serif;font-size:clamp(24px,4vw,38px);font-weight:700;color:var(--gold);letter-spacing:0.08em;text-shadow:0 0 40px rgba(201,168,76,0.2);}
+  .header .sub{color:var(--muted);font-size:12px;margin-top:6px;}
+  .hrule{width:60px;height:1px;background:var(--gold-dim);margin:14px auto 24px;}
+
+  /* TIMESTAMP */
+  .ts-bar{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:5px;margin-bottom:20px;flex-wrap:wrap;gap:8px;}
+  .ts-left{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+
+  /* VERDICT */
+  .verdict{padding:20px 24px;border-radius:6px;border:1px solid;margin-bottom:20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+  .verdict.go{background:var(--green-bg);border-color:rgba(76,175,125,0.3);}
+  .verdict.caution{background:var(--amber-bg);border-color:rgba(224,160,48,0.3);}
+  .verdict.no{background:var(--red-bg);border-color:rgba(224,85,85,0.3);}
+  .verdict.idle{background:var(--gold-glow);border-color:var(--border);}
+  .v-icon{font-size:28px;flex-shrink:0;}
+  .v-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+  .v-title{font-family:'Cinzel',serif;font-size:clamp(18px,3vw,24px);font-weight:700;letter-spacing:0.04em;}
+  .verdict.go .v-title{color:var(--green);}
+  .verdict.caution .v-title{color:var(--amber);}
+  .verdict.no .v-title{color:var(--red);}
+  .verdict.idle .v-title{color:var(--gold-dim);}
+  .v-reason{font-size:12px;color:var(--muted);margin-top:4px;}
+
+  /* GRID */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr;}}
+
+  /* BLOCK */
+  .block{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:14px;}
+  .bh{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .bt{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-dim);}
+  .bb{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 8px;border-radius:2px;letter-spacing:0.08em;}
+  .bb.go{background:var(--green-bg);color:var(--green);border:1px solid rgba(76,175,125,0.3);}
+  .bb.caution{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(224,160,48,0.3);}
+  .bb.no{background:var(--red-bg);color:var(--red);border:1px solid rgba(224,85,85,0.3);}
+  .bb.dim{background:var(--gold-glow);color:var(--gold-dim);border:1px solid var(--border);}
+  .bp{padding:16px;}
+
+  /* SPY / VIX inputs */
+  .input-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+  .input-label{font-size:12px;color:var(--muted);min-width:80px;}
+  .num-input{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:3px;padding:7px 10px;font-family:'JetBrains Mono',monospace;font-size:16px;width:130px;outline:none;transition:border-color 0.2s;}
+  .num-input:focus{border-color:var(--gold-dim);}
+  .num-input::placeholder{color:#3a3a3a;}
+
+  /* VIX needle */
+  .vix-labels{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:4px;margin-top:10px;}
+  .vix-track{height:8px;border-radius:4px;position:relative;background:linear-gradient(to right,var(--green) 0%,var(--green) 40%,var(--amber) 40%,var(--amber) 65%,var(--red) 65%,var(--red) 100%);opacity:0.4;}
+  .vix-needle{position:absolute;top:-4px;width:3px;height:16px;background:var(--gold);border-radius:2px;transform:translateX(-50%);transition:left 0.4s ease;box-shadow:0 0 6px rgba(201,168,76,0.6);}
+  .vix-chips{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+  .vc{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:2px;}
+
+  .sr{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-top:1px solid var(--faint);font-size:12px;}
+  .sl{color:var(--muted);}
+  .sv{font-family:'JetBrains Mono',monospace;}
+  .sv.go{color:var(--green);}.sv.caution{color:var(--amber);}.sv.no{color:var(--red);}
+
+  /* SECTION LABEL */
+  .sec{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .sec::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  /* SELECT */
+  .sel{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:3px;padding:7px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;cursor:pointer;transition:border-color 0.2s;}
+  .sel:focus{border-color:var(--gold-dim);}
+
+  /* CHECKS */
+  .chk{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:5px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s;user-select:none;}
+  .chk:hover{border-color:var(--gold-dim);}
+  .chk.pass{border-color:rgba(76,175,125,0.3);}
+  .chk-box{width:20px;height:20px;flex-shrink:0;border-radius:3px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+  .chk.pass .chk-box{background:var(--green);border-color:var(--green);}
+  .chk.pass .chk-box::after{content:"✓";color:#fff;font-size:11px;font-weight:700;}
+  .chk-body{flex:1;}
+  .chk-title{font-size:13px;font-weight:500;}
+  .chk.pass .chk-title{color:var(--muted);}
+  .chk-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+  .chk-st{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 9px;border-radius:2px;flex-shrink:0;}
+  .chk-st.pass{background:var(--green-bg);color:var(--green);}
+  .chk-st.idle{color:var(--muted);border:1px solid var(--border);}
+
+  /* EARNINGS */
+  .earn-row{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid var(--faint);font-size:12px;}
+  .earn-row:last-child{border-bottom:none;}
+  .etk{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;min-width:48px;}
+  .edt{color:var(--muted);flex:1;padding:0 10px;}
+  .efl{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 7px;border-radius:2px;}
+  .efl.danger{background:var(--red-bg);color:var(--red);border:1px solid rgba(224,85,85,0.3);}
+  .efl.clear{background:var(--green-bg);color:var(--green);border:1px solid rgba(76,175,125,0.25);}
+  .efl.watch{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(224,160,48,0.3);}
+
+  /* NOTES */
+  textarea{width:100%;min-height:70px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:5px;padding:12px 14px;font-family:'Inter',sans-serif;font-size:13px;resize:vertical;outline:none;line-height:1.6;}
+  textarea:focus{border-color:var(--gold-dim);}
+  textarea::placeholder{color:#3a3a3a;}
+
+  /* MARKET DATA DRAWER */
+  .drawer{margin-top:32px;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+  .drawer-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);cursor:pointer;user-select:none;transition:background 0.15s;}
+  .drawer-header:hover{background:var(--faint);}
+  .drawer-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);}
+  .drawer-arrow{font-size:11px;color:var(--muted);transition:transform 0.25s;}
+  .drawer-arrow.open{transform:rotate(180deg);}
+  .drawer-body{display:none;padding:16px;background:var(--card);border-top:1px solid var(--border);}
+  .drawer-body.open{display:block;}
+  .drawer-note{font-size:11px;color:var(--muted);margin-bottom:14px;padding:8px 12px;background:var(--faint);border-radius:4px;border-left:2px solid var(--gold-dim);}
+
+  /* TV widgets grid */
+  .tv-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  @media(max-width:560px){.tv-grid{grid-template-columns:1fr;}}
+  .tv-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px;}
+  .tv-widget-wrap{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden;}
+
+  .footer{text-align:center;margin-top:32px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#2a2a2a;letter-spacing:0.1em;}
+
+  /* WATCHLIST SNAPSHOT */
+  .wl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;padding:14px 16px;}
+  .wl-chip{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:10px 12px;text-align:center;transition:border-color 0.2s;}
+  .wl-chip.up{border-color:rgba(76,175,125,0.3);}
+  .wl-chip.down{border-color:rgba(224,85,85,0.3);}
+  .wl-chip.flat{border-color:rgba(224,160,48,0.2);}
+  .wl-ticker{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--gold);margin-bottom:4px;}
+  .wl-price{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);margin-bottom:2px;}
+  .wl-chg{font-family:'JetBrains Mono',monospace;font-size:11px;}
+  .wl-chg.up{color:var(--green);} .wl-chg.down{color:var(--red);} .wl-chg.flat{color:var(--amber);}
+  .wl-load{padding:14px 16px;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+
+  /* 20MA ROW */
+  .ma-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;}
+  .ma-badge{font-family:'JetBrains Mono',monospace;font-size:11px;padding:3px 10px;border-radius:3px;}
+  .ma-badge.above{background:var(--green-bg);color:var(--green);border:1px solid rgba(76,175,125,0.3);}
+  .ma-badge.below{background:var(--red-bg);color:var(--red);border:1px solid rgba(224,85,85,0.3);}
+  .ma-badge.near{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(224,160,48,0.3);}
+  .ma-badge.dim{background:var(--gold-glow);color:var(--gold-dim);border:1px solid var(--border);}
+
+  /* CHECKLIST DRAWER */
+  .cl-drawer{margin-top:14px;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+  .cl-drawer-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);cursor:pointer;user-select:none;transition:background 0.15s;}
+  .cl-drawer-header:hover{background:var(--faint);}
+  .cl-drawer-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px;}
+  .cl-drawer-arrow{font-size:11px;color:var(--muted);transition:transform 0.25s;}
+  .cl-drawer-arrow.open{transform:rotate(180deg);}
+  .cl-drawer-body{display:none;padding:20px;background:var(--card);border-top:1px solid var(--border);}
+  .cl-drawer-body.open{display:block;}
+
+  /* CHECKLIST inside drawer */
+  .cl-progress-wrap{display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
+  .cl-bar-outer{flex:1;min-width:120px;height:5px;background:var(--faint);border-radius:3px;overflow:hidden;}
+  .cl-bar-inner{height:100%;background:var(--gold);border-radius:3px;transition:width 0.4s ease;width:0%;}
+  .cl-pct{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);}
+  .cl-chips{display:flex;gap:10px;flex-wrap:wrap;}
+  .cl-chip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 8px;border-radius:2px;}
+  .cl-chip.g{background:var(--green-bg);color:var(--green);border:1px solid rgba(76,175,125,0.25);}
+  .cl-chip.a{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(224,160,48,0.25);}
+  .cl-chip.gr{background:rgba(120,120,120,0.08);color:#666;border:1px solid rgba(120,120,120,0.2);}
+
+  .cl-phase-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .cl-phase-title.green{color:var(--green);}
+  .cl-phase-title.amber{color:var(--amber);}
+  .cl-phase-title.grey{color:#666;}
+
+  .cl-tool{background:var(--surface);border:1px solid var(--border);border-radius:5px;margin-bottom:8px;overflow:hidden;}
+  .cl-tool.complete{border-color:rgba(76,175,125,0.3);}
+  .cl-tool-hdr{display:flex;align-items:center;cursor:pointer;user-select:none;transition:background 0.15s;}
+  .cl-tool-hdr:hover{background:rgba(255,255,255,0.02);}
+  .cl-mcheck{width:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:12px 0;border-right:1px solid var(--border);}
+  .cl-mbox{width:18px;height:18px;border-radius:3px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all 0.15s;cursor:pointer;background:transparent;}
+  .cl-mbox.checked{background:var(--green);border-color:var(--green);}
+  .cl-mbox.checked::after{content:"✓";color:#fff;font-size:11px;font-weight:700;}
+  .cl-tnum{width:36px;flex-shrink:0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold-dim);border-right:1px solid var(--border);padding:12px 0;}
+  .cl-tname{flex:1;padding:12px 16px;}
+  .cl-tname-text{font-size:12px;font-weight:600;color:var(--text);}
+  .cl-tool.complete .cl-tname-text{color:#4a4a40;text-decoration:line-through;}
+  .cl-tphase{font-size:10px;font-family:'JetBrains Mono',monospace;margin-top:2px;}
+  .cl-expand{width:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-left:1px solid var(--border);color:var(--muted);font-size:10px;cursor:pointer;}
+  .cl-chevron{transition:transform 0.2s;display:inline-block;}
+  .cl-chevron.open{transform:rotate(180deg);}
+  .cl-subs{display:none;border-top:1px solid var(--faint);}
+  .cl-subs.open{display:block;}
+  .cl-sub{display:flex;align-items:flex-start;border-bottom:1px solid var(--faint);}
+  .cl-sub:last-child{border-bottom:none;}
+  .cl-scheck{width:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:9px 0;border-right:1px solid var(--faint);}
+  .cl-sbox{width:14px;height:14px;border-radius:2px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;background:transparent;}
+  .cl-sbox.checked{background:rgba(76,175,125,0.2);border-color:var(--green);}
+  .cl-sbox.checked::after{content:"✓";color:var(--green);font-size:9px;font-weight:700;}
+  .cl-spacer{width:36px;flex-shrink:0;border-right:1px solid var(--faint);}
+  .cl-stext{flex:1;padding:9px 16px;font-size:11px;color:var(--muted);line-height:1.5;}
+  .cl-stext.checked{color:#4a4a40;text-decoration:line-through;}
+
+  .cl-gate{background:var(--gold-glow);border:1px solid var(--gold-dim);border-radius:5px;padding:16px;margin-top:16px;}
+  .cl-gate-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+  .cl-gate-item{display:flex;align-items:flex-start;gap:12px;padding:8px 0;border-bottom:1px solid rgba(201,168,76,0.12);}
+  .cl-gate-item:last-child{border-bottom:none;}
+  .cl-gbox{width:18px;height:18px;border-radius:3px;border:2px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px;transition:all 0.15s;background:transparent;}
+  .cl-gbox.checked{background:var(--gold);border-color:var(--gold);}
+  .cl-gbox.checked::after{content:"✓";color:#1a1a00;font-size:10px;font-weight:700;}
+  .cl-gtext{font-size:12px;color:var(--text);font-weight:500;line-height:1.5;}
+  .cl-gtext.checked{color:#4a4a40;text-decoration:line-through;}
+  .cl-gate-status{margin-top:12px;padding:9px 14px;border-radius:3px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s;}
+  .cl-gate-status.locked{background:rgba(224,85,85,0.1);color:var(--red);border:1px solid rgba(224,85,85,0.3);}
+  .cl-gate-status.unlocked{background:rgba(76,175,125,0.1);color:var(--green);border:1px solid rgba(76,175,125,0.3);}
+  .cl-reset{text-align:center;margin-top:14px;}
+  .cl-reset-btn{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:7px 18px;border-radius:3px;cursor:pointer;transition:all 0.2s;}
+  .cl-reset-btn:hover{border-color:var(--red);color:var(--red);}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">Richards Reserve · TRADR · Tool 01</div>
+  <h1>TRADR Daily Hub</h1>
+  <div class="sub">Morning dashboard — SPY gatekeeper · VIX zone · Earnings flag · Daily go/no-go</div>
+  <div class="hrule"></div>
+</div>
+
+<div class="ts-bar">
+  <div class="ts-left" id="tsLeft">Complete all inputs below to generate verdict</div>
+</div>
+
+<!-- ── VERDICT ── -->
+<div class="verdict idle" id="verdictBanner">
+  <div class="v-icon" id="vIcon">○</div>
+  <div>
+    <div class="v-label">Today's Verdict</div>
+    <div class="v-title" id="vTitle">Awaiting Your Inputs</div>
+    <div class="v-reason" id="vReason">Enter SPY, VIX, chart read and tick all checks to generate today's verdict.</div>
+  </div>
+</div>
+
+<!-- ── SPY + VIX ── -->
+<div class="sec">Market Inputs</div>
+<div class="grid2">
+
+  <!-- SPY -->
+  <div class="block" style="margin-bottom:0;">
+    <div class="bh"><div class="bt">SPY — Gatekeeper</div><div class="bb dim" id="spyBadge">—</div></div>
+    <div class="bp">
+      <div class="input-row">
+        <div class="input-label">Price (USD)</div>
+        <input class="num-input" id="spyPrice" type="number" step="0.01" placeholder="e.g. 528.40" oninput="onSpyInput()">
+      </div>
+      <div class="input-row">
+        <div class="input-label">Prev close</div>
+        <input class="num-input" id="spyPrev" type="number" step="0.01" placeholder="e.g. 525.10" oninput="onSpyInput()">
+      </div>
+      <div class="sr" style="margin-top:4px;"><span class="sl">Day change</span><span class="sv" id="spyChg">—</span></div>
+      <div class="sr"><span class="sl">Session</span><span class="sv" id="spyDir">—</span></div>
+      <div class="sr"><span class="sl">20-day MA</span><span class="sv" id="spy20ma">—</span></div>
+      <div class="ma-row"><div class="ma-badge dim" id="spy20badge">—</div><span style="font-size:11px;color:var(--muted)" id="spy20note"></span></div>
+    </div>
+  </div>
+
+  <!-- VIX -->
+  <div class="block" style="margin-bottom:0;">
+    <div class="bh"><div class="bt">VIX — Fear Level</div><div class="bb dim" id="vixBadge">—</div></div>
+    <div class="bp">
+      <div class="input-row">
+        <div class="input-label">VIX value</div>
+        <input class="num-input" id="vixInput" type="number" step="0.1" placeholder="e.g. 18.5" oninput="onVixInput()">
+      </div>
+      <div class="vix-labels"><span>0</span><span>20</span><span>30</span><span>50</span></div>
+      <div class="vix-track"><div class="vix-needle" id="vixNeedle" style="left:0%"></div></div>
+      <div class="vix-chips" style="margin-top:10px;">
+        <span class="vc" style="background:var(--green-bg);color:var(--green);border:1px solid rgba(76,175,125,0.3)">Below 20 — GO</span>
+        <span class="vc" style="background:var(--amber-bg);color:var(--amber);border:1px solid rgba(224,160,48,0.3)">20–30 — CAUTION</span>
+        <span class="vc" style="background:var(--red-bg);color:var(--red);border:1px solid rgba(224,85,85,0.3)">Above 30 — NO TRADE</span>
+      </div>
+      <div class="sr" style="margin-top:8px;"><span class="sl">Zone</span><span class="sv" id="vixZone">—</span></div>
+      <div class="sr"><span class="sl">Signal</span><span class="sv" id="vixSig">—</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── CHART READ + EARNINGS ── -->
+<div class="grid2" style="margin-top:14px;">
+
+  <!-- Chart read -->
+  <div class="block" style="margin-bottom:0;">
+    <div class="bh"><div class="bt">SPY Chart Read</div><div class="bb dim" id="chartBadge">Not set</div></div>
+    <div class="bp">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">Check 1W chart on TradingView or IBKR — what do you see?</div>
+      <div style="margin-bottom:8px;">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:5px;">Trend</div>
+        <select class="sel" id="chartTrend" onchange="updateChart()" style="width:100%;">
+          <option value="">— select —</option>
+          <option value="uptrend">Uptrend / higher highs</option>
+          <option value="ranging">Ranging / sideways</option>
+          <option value="mixed">Mixed / unclear</option>
+          <option value="downtrend">Downtrend / lower highs</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:5px;">Price vs 200 SMA</div>
+        <select class="sel" id="price200" onchange="updateChart()" style="width:100%;">
+          <option value="">— select —</option>
+          <option value="above">Clearly above</option>
+          <option value="near">Near / borderline</option>
+          <option value="below">Below</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Earnings -->
+  <div class="block" style="margin-bottom:0;">
+    <div class="bh"><div class="bt">Earnings — Next 5 Days</div><div class="bb dim" id="earnBadge">—</div></div>
+    <div id="earningsRows" style="font-size:12px;"></div>
+    <div style="padding:8px 14px;border-top:1px solid var(--faint);font-size:10px;color:var(--muted);">
+      Reporting within 5 days = do not sell puts on that ticker
+    </div>
+  </div>
+
+</div>
+
+<!-- ── WATCHLIST SNAPSHOT ── -->
+<div class="sec" style="margin-top:20px;">Watchlist Snapshot</div>
+<div class="block" style="margin-bottom:14px;">
+  <div class="bh"><div class="bt">All 7 Tickers — Live Prices</div><div class="bb dim" id="wlBadge">Loading…</div></div>
+  <div id="wlGrid" class="wl-load">Fetching watchlist data…</div>
+</div>
+
+<!-- ── MANUAL CHECKS ── -->
+<div class="sec" style="margin-top:20px;">Checks</div>
+
+<div class="chk" id="chk_news" onclick="toggleCheck('news')">
+  <div class="chk-box"></div>
+  <div class="chk-body">
+    <div class="chk-title">No major macro news today</div>
+    <div class="chk-sub">Fed, CPI, FOMC, major geo event — any of these = hold capital</div>
+  </div>
+  <div class="chk-st idle" id="cs_news">Unchecked</div>
+</div>
+
+<div class="chk" id="chk_spy" onclick="toggleCheck('spy')">
+  <div class="chk-box"></div>
+  <div class="chk-body">
+    <div class="chk-title">SPY not in confirmed downtrend</div>
+    <div class="chk-sub">Lower highs + lower lows on 1W = gatekeeper fail. No trade on anything.</div>
+  </div>
+  <div class="chk-st idle" id="cs_spy">Unchecked</div>
+</div>
+
+<div class="chk" id="chk_vix" onclick="toggleCheck('vix')">
+  <div class="chk-box"></div>
+  <div class="chk-body">
+    <div class="chk-title">VIX confirmed — not above 30</div>
+    <div class="chk-sub">VIX above 30 = stop. VIX 20–30 = reduce size only.</div>
+  </div>
+  <div class="chk-st idle" id="cs_vix">Unchecked</div>
+</div>
+
+<div class="chk" id="chk_earn" onclick="toggleCheck('earn')">
+  <div class="chk-box"></div>
+  <div class="chk-body">
+    <div class="chk-title">No earnings on target ticker within 5 days</div>
+    <div class="chk-sub">Check the calendar above for the specific stock you plan to trade today.</div>
+  </div>
+  <div class="chk-st idle" id="cs_earn">Unchecked</div>
+</div>
+
+<div class="chk" id="chk_cap" onclick="toggleCheck('cap')">
+  <div class="chk-box"></div>
+  <div class="chk-body">
+    <div class="chk-title">Capital buffer healthy — 50% minimum free</div>
+    <div class="chk-sub">Never more than 50% of account in open positions at any time.</div>
+  </div>
+  <div class="chk-st idle" id="cs_cap">Unchecked</div>
+</div>
+
+<!-- ── NOTES ── -->
+<div class="sec" style="margin-top:20px;">Session Notes</div>
+<textarea placeholder="Chart observations, market feel, anything that informs your decision today…"></textarea>
+
+<!-- ── MARKET DATA DRAWER ── -->
+<div class="drawer">
+  <div class="drawer-header" onclick="toggleDrawer()">
+    <div class="drawer-title">▸ Market Data — TradingView</div>
+    <div class="drawer-arrow" id="drawerArrow">▾</div>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <div class="drawer-note">Reference only — open to check SPY price, VIX, and chart. Enter the values above, then collapse this panel.</div>
+    <div class="tv-grid">
+      <div>
+        <div class="tv-label">SPY — Price &amp; Change</div>
+        <div class="tv-widget-wrap">
+          <!-- TradingView Single Quote Widget — SPY -->
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+            {
+              "symbol": "AMEX:SPY",
+              "width": "100%",
+              "colorTheme": "dark",
+              "isTransparent": true,
+              "locale": "en"
+            }
+            </script>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="tv-label">VIX — Fear Index</div>
+        <div class="tv-widget-wrap">
+          <!-- TradingView Single Quote Widget — VIX -->
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+            {
+              "symbol": "TVC:VIX",
+              "width": "100%",
+              "colorTheme": "dark",
+              "isTransparent": true,
+              "locale": "en"
+            }
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="tv-label">SPY — 1W Chart (200 &amp; 50 SMA)</div>
+      <div class="tv-widget-wrap">
+        <!-- TradingView Advanced Chart Widget — SPY 1W -->
+        <div class="tradingview-widget-container" style="height:400px;">
+          <div class="tradingview-widget-container__widget" style="height:400px;"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+          {
+            "symbol": "AMEX:SPY",
+            "interval": "W",
+            "width": "100%",
+            "height": "400",
+            "timezone": "Pacific/Auckland",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "studies": ["STD;SMA", "STD;SMA"],
+            "studies_overrides": {},
+            "hide_top_toolbar": false,
+            "hide_legend": false,
+            "save_image": false,
+            "backgroundColor": "rgba(26, 26, 26, 1)",
+            "gridColor": "rgba(42, 42, 42, 0.5)"
+          }
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOOL CREATION CHECKLIST DRAWER ── -->
+<div class="cl-drawer" style="margin-top:20px;">
+  <div class="cl-drawer-header" onclick="toggleClDrawer()">
+    <div class="cl-drawer-title">
+      <span>📋</span>
+      <span>Tool Creation Checklist</span>
+      <span id="clDrawerChip" class="cl-chip gr" style="margin-left:4px;">0/10</span>
+    </div>
+    <div class="cl-drawer-arrow" id="clDrawerArrow">▾</div>
+  </div>
+  <div class="cl-drawer-body" id="clDrawerBody">
+    <!-- Progress -->
+    <div class="cl-progress-wrap">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold-dim);letter-spacing:0.15em;text-transform:uppercase;white-space:nowrap;">Overall</div>
+      <div class="cl-bar-outer"><div class="cl-bar-inner" id="clBar"></div></div>
+      <div class="cl-pct" id="clPct">0%</div>
+      <div class="cl-chips">
+        <div class="cl-chip g" id="clChipG">P1: 0/4</div>
+        <div class="cl-chip a" id="clChipA">P2: 0/4</div>
+        <div class="cl-chip gr" id="clChipGr">P3: 0/2</div>
+      </div>
+    </div>
+    <!-- Tools rendered here -->
+    <div id="clToolsContainer"></div>
+    <!-- Gate -->
+    <div class="cl-gate">
+      <div class="cl-gate-title">Go-Live Gate</div>
+      <div id="clGateItems"></div>
+      <div class="cl-gate-status locked" id="clGateStatus">🔒 Gate Locked — Complete all conditions to unlock</div>
+    </div>
+    <div class="cl-reset"><button class="cl-reset-btn" onclick="clConfirmReset()">Reset Checklist Progress</button></div>
+  </div>
+</div>
+
+<div class="footer">TRADR · Tool 01 · Daily Hub · Richards Reserve</div>
+
+<script>
+// ── EARNINGS ───────────────────────────────────────────────
+const EARNINGS_KNOWN = [
+  { ticker:'SPY',  date:null },
+  { ticker:'QQQ',  date:null },
+  { ticker:'JPM',  date:'2026-07-14', time:'BMO' },
+  { ticker:'MSFT', date:'2026-07-30', time:'AMC' },
+  { ticker:'AAPL', date:'2026-07-31', time:'AMC' },
+  { ticker:'AMZN', date:'2026-08-01', time:'AMC' },
+  { ticker:'V',    date:'2026-07-22', time:'AMC' },
+];
+
+let checks = {news:false,spy:false,vix:false,earn:false,cap:false};
+let market  = {spy:null,spyPrev:null,vix:null};
+let chart   = {trend:'',ma200:''};
+
+// ── SPY INPUT ──────────────────────────────────────────────
+function onSpyInput() {
+  const price = parseFloat(document.getElementById('spyPrice').value);
+  const prev  = parseFloat(document.getElementById('spyPrev').value);
+  market.spy     = isNaN(price) ? null : price;
+  market.spyPrev = isNaN(prev)  ? null : prev;
+
+  const chgEl = document.getElementById('spyChg');
+  const dirEl = document.getElementById('spyDir');
+  const badge = document.getElementById('spyBadge');
+
+  if (market.spy && market.spyPrev) {
+    const chg = ((market.spy - market.spyPrev) / market.spyPrev) * 100;
+    const sign = chg >= 0 ? '+' : '';
+    chgEl.textContent = sign + chg.toFixed(2) + '%';
+    if (chg > 0.3) {
+      chgEl.className = 'sv go'; dirEl.textContent = 'Up'; dirEl.className = 'sv go';
+      badge.className = 'bb go'; badge.textContent = 'UP';
+    } else if (chg < -0.5) {
+      chgEl.className = 'sv no'; dirEl.textContent = 'Down'; dirEl.className = 'sv no';
+      badge.className = 'bb caution'; badge.textContent = 'DOWN';
+    } else {
+      chgEl.className = 'sv caution'; dirEl.textContent = 'Flat'; dirEl.className = 'sv caution';
+      badge.className = 'bb caution'; badge.textContent = 'FLAT';
+    }
+  } else {
+    chgEl.textContent = '—'; chgEl.className = 'sv';
+    dirEl.textContent = '—'; dirEl.className = 'sv';
+    badge.className = 'bb dim'; badge.textContent = '—';
+  }
+  updateVerdict();
+  update20MABadge();
+}
+
+// ── VIX INPUT ──────────────────────────────────────────────
+function onVixInput() {
+  const v = parseFloat(document.getElementById('vixInput').value);
+  market.vix = isNaN(v) ? null : v;
+
+  const badge  = document.getElementById('vixBadge');
+  const zone   = document.getElementById('vixZone');
+  const sig    = document.getElementById('vixSig');
+  const needle = document.getElementById('vixNeedle');
+
+  if (market.vix !== null) {
+    needle.style.left = Math.min((market.vix / 50) * 100, 100) + '%';
+    if (market.vix < 20) {
+      badge.className='bb go'; badge.textContent='GO';
+      zone.textContent='GO — below 20'; zone.className='sv go';
+      sig.textContent='Normal — full size'; sig.className='sv go';
+    } else if (market.vix <= 30) {
+      badge.className='bb caution'; badge.textContent='CAUTION';
+      zone.textContent='CAUTION — 20 to 30'; zone.className='sv caution';
+      sig.textContent='Elevated — 1 contract only'; sig.className='sv caution';
+    } else {
+      badge.className='bb no'; badge.textContent='NO TRADE';
+      zone.textContent='NO TRADE — above 30'; zone.className='sv no';
+      sig.textContent='Fear spike — stop here'; sig.className='sv no';
+    }
+  } else {
+    badge.className='bb dim'; badge.textContent='—';
+    zone.textContent='—'; zone.className='sv';
+    sig.textContent='—'; sig.className='sv';
+    needle.style.left = '0%';
+  }
+  updateVerdict();
+}
+
+// ── CHART READ ─────────────────────────────────────────────
+function updateChart() {
+  chart.trend = document.getElementById('chartTrend').value;
+  chart.ma200 = document.getElementById('price200').value;
+  const b = document.getElementById('chartBadge');
+  if (!chart.trend) { b.className='bb dim'; b.textContent='Not set'; }
+  else if (chart.trend === 'downtrend') { b.className='bb no'; b.textContent='FAIL'; }
+  else if (chart.trend === 'mixed')     { b.className='bb caution'; b.textContent='CAUTION'; }
+  else                                  { b.className='bb go'; b.textContent='PASS'; }
+  updateVerdict();
+}
+
+// ── CHECKS ─────────────────────────────────────────────────
+function toggleCheck(k) {
+  checks[k] = !checks[k];
+  const row = document.getElementById('chk_' + k);
+  const st  = document.getElementById('cs_' + k);
+  if (checks[k]) { row.className='chk pass'; st.className='chk-st pass'; st.textContent='PASS'; }
+  else           { row.className='chk';      st.className='chk-st idle'; st.textContent='Unchecked'; }
+  updateVerdict();
+}
+
+// ── EARNINGS ───────────────────────────────────────────────
+function renderEarnings() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d5  = new Date(today); d5.setDate(today.getDate()+5);
+  const d14 = new Date(today); d14.setDate(today.getDate()+14);
+  let html = ''; let warns = 0;
+  EARNINGS_KNOWN.forEach(e => {
+    if (!e.date) {
+      html += `<div class="earn-row"><div class="etk">${e.ticker}</div><div class="edt">—</div><div class="efl clear">CLEAR</div></div>`;
+      return;
+    }
+    const d = new Date(e.date); d.setHours(0,0,0,0);
+    const days = Math.ceil((d - today) / 86400000);
+    if (d >= today && d <= d5) {
+      warns++;
+      html += `<div class="earn-row"><div class="etk">${e.ticker}</div><div class="edt">${e.date} · ${e.time} · ${days}d</div><div class="efl danger">⚠ AVOID</div></div>`;
+    } else if (d > d5 && d <= d14) {
+      html += `<div class="earn-row"><div class="etk">${e.ticker}</div><div class="edt">${e.date} · ${e.time} · ${days}d</div><div class="efl watch">WATCH</div></div>`;
+    } else {
+      html += `<div class="earn-row"><div class="etk">${e.ticker}</div><div class="edt">—</div><div class="efl clear">CLEAR</div></div>`;
+    }
+  });
+  document.getElementById('earningsRows').innerHTML = html;
+  const eb = document.getElementById('earnBadge');
+  if (warns > 0) { eb.className='bb no'; eb.textContent=warns+' WARNING'+(warns>1?'S':''); }
+  else           { eb.className='bb go'; eb.textContent='All Clear'; }
+}
+
+// ── VERDICT ────────────────────────────────────────────────
+function updateVerdict() {
+  const banner = document.getElementById('verdictBanner');
+  const title  = document.getElementById('vTitle');
+  const reason = document.getElementById('vReason');
+  const icon   = document.getElementById('vIcon');
+  const ts     = document.getElementById('tsLeft');
+
+  const vix   = market.vix;
+  const trend = chart.trend;
+  let verdict = 'go';
+  let reasons = [];
+
+  // Nothing entered yet
+  if (vix === null && !trend && Object.values(checks).every(v => !v)) {
+    banner.className='verdict idle';
+    title.textContent='Awaiting Your Inputs';
+    reason.textContent='Enter SPY, VIX, chart read and tick all checks to generate today\'s verdict.';
+    icon.textContent='○'; ts.textContent='Complete all inputs below to generate verdict';
+    return;
+  }
+
+  // VIX
+  if (vix !== null) {
+    if (vix > 30)       { verdict='no';      reasons.push('VIX '+vix.toFixed(1)+' — above 30, stop here'); }
+    else if (vix > 20)  { if (verdict!=='no') verdict='caution'; reasons.push('VIX '+vix.toFixed(1)+' — reduce size'); }
+  } else { if (verdict==='go') verdict='caution'; reasons.push('VIX not entered'); }
+
+  // Chart
+  if (trend === 'downtrend')      { verdict='no'; reasons.push('SPY in confirmed downtrend'); }
+  else if (trend === 'mixed')     { if (verdict!=='no') verdict='caution'; reasons.push('SPY direction mixed'); }
+  else if (!trend)                { if (verdict==='go') verdict='caution'; reasons.push('Chart read not set'); }
+
+  // Checks
+  const failed = Object.entries(checks).filter(([,v]) => !v).length;
+  if (failed > 0) { if (verdict==='go') verdict='caution'; reasons.push(failed+' check'+(failed>1?'s':'')+' not confirmed'); }
+
+  const now = new Date().toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'});
+
+  if (verdict === 'go') {
+    banner.className='verdict go'; icon.textContent='✓';
+    title.textContent='GO — Conditions Clear';
+    reason.textContent='All checks passed. Proceed to Pre-Trade Checklist (Tool 02) before placing any order.';
+    ts.textContent='Last updated ' + now + ' · All conditions met';
+  } else if (verdict === 'caution') {
+    banner.className='verdict caution'; icon.textContent='⚠';
+    title.textContent='CAUTION — Proceed Carefully';
+    reason.textContent = reasons.join(' · ');
+    ts.textContent='Last updated ' + now + ' · Review caution flags';
+  } else {
+    banner.className='verdict no'; icon.textContent='✕';
+    title.textContent='NO TRADE — Hold Capital';
+    reason.textContent = reasons.join(' · ');
+    ts.textContent='Last updated ' + now + ' · Hard stop triggered';
+  }
+}
+
+// ── DRAWER ─────────────────────────────────────────────────
+function toggleDrawer() {
+  const body  = document.getElementById('drawerBody');
+  const arrow = document.getElementById('drawerArrow');
+  const title = document.querySelector('.drawer-title');
+  const isOpen = body.classList.toggle('open');
+  arrow.classList.toggle('open', isOpen);
+  title.textContent = (isOpen ? '▾' : '▸') + ' Market Data — TradingView';
+}
+
+// ── MARKET DATA FETCH ─────────────────────────────────────
+const FINNHUB_KEY = 'd8mg4dhr01qkiso9g8f0d8mg4dhr01qkiso9g8fg';
+
+async function loadMarketData() {
+  const ts = document.getElementById('tsLeft');
+  ts.textContent = '↻ Loading live data…';
+  const now = new Date().toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'});
+
+  // SPY via Finnhub — try both v1 quote endpoints
+  let spyLoaded = false;
+  const spyUrls = [
+    `https://finnhub.io/api/v1/quote?symbol=SPY&token=${FINNHUB_KEY}`,
+    `https://finnhub.io/api/v1/quote?symbol=AMEX%3ASPY&token=${FINNHUB_KEY}`
+  ];
+
+  for (const url of spyUrls) {
+    if (spyLoaded) break;
+    try {
+      const res  = await fetch(url);
+      const data = await res.json();
+      // Finnhub returns c=0 after hours, use pc (prev close) as fallback
+      const price = (data.c && data.c > 10) ? data.c : (data.pc && data.pc > 10) ? data.pc : 0;
+      const prev  = (data.pc && data.pc > 10) ? data.pc : price;
+      if (price > 10) {
+        document.getElementById('spyPrice').value = price.toFixed(2);
+        document.getElementById('spyPrev').value  = prev.toFixed(2);
+        onSpyInput();
+        spyLoaded = true;
+        ts.textContent = '● SPY: $' + price.toFixed(2) + ' · loading VIX…';
+      }
+    } catch(e) {}
+  }
+
+  if (!spyLoaded) {
+    ts.textContent = '⚠ SPY load failed — enter manually · ' + now;
+  }
+
+  // VIX via Finnhub
+  try {
+    const vixRes  = await fetch(`https://finnhub.io/api/v1/quote?symbol=%5EVIX&token=${FINNHUB_KEY}`);
+    const vixData = await vixRes.json();
+    const vix = (vixData.c && vixData.c > 0) ? vixData.c : (vixData.pc && vixData.pc > 0) ? vixData.pc : 0;
+    if (vix > 0) {
+      document.getElementById('vixInput').value = vix.toFixed(2);
+      onVixInput();
+      ts.textContent = '● Live · ' + now + ' · Refresh page to update';
+      return;
+    }
+  } catch(e) {}
+
+  // VIX Yahoo Finance fallback
+  try {
+    const yRes  = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=1d&range=1d');
+    const yData = await yRes.json();
+    const yVix  = yData.chart.result[0].meta.regularMarketPrice;
+    if (yVix && yVix > 0) {
+      document.getElementById('vixInput').value = yVix.toFixed(2);
+      onVixInput();
+      ts.textContent = '● Live · ' + now + ' · Refresh page to update';
+      return;
+    }
+  } catch(e) {}
+
+  ts.textContent = (spyLoaded ? '● SPY loaded' : '⚠ SPY failed') + ' · VIX enter manually · ' + now;
+}
+
+
+// ── 20-DAY MA CALCULATION ─────────────────────────────────
+async function fetchSpy20MA() {
+  try {
+    const to   = Math.floor(Date.now() / 1000);
+    const from = to - (60 * 60 * 24 * 35); // 35 days back to ensure 20 trading days
+    const url  = `https://finnhub.io/api/v1/stock/candle?symbol=SPY&resolution=D&from=${from}&to=${to}&token=${FINNHUB_KEY}`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    if (!data.c || data.c.length < 20) return;
+    const closes = data.c.slice(-20);
+    const ma20   = closes.reduce((a, b) => a + b, 0) / 20;
+    const maEl   = document.getElementById('spy20ma');
+    const badge  = document.getElementById('spy20badge');
+    const note   = document.getElementById('spy20note');
+    maEl.textContent = '$' + ma20.toFixed(2);
+    maEl.className = 'sv';
+    // Compare to current SPY price
+    const price = market.spy;
+    if (price) {
+      const diff = ((price - ma20) / ma20 * 100);
+      const sign = diff >= 0 ? '+' : '';
+      if (diff > 1) {
+        badge.className = 'ma-badge above'; badge.textContent = 'ABOVE 20MA';
+        note.textContent = sign + diff.toFixed(1) + '% above — bullish';
+      } else if (diff < -1) {
+        badge.className = 'ma-badge below'; badge.textContent = 'BELOW 20MA';
+        note.textContent = sign + diff.toFixed(1) + '% below — bearish';
+      } else {
+        badge.className = 'ma-badge near'; badge.textContent = 'AT 20MA';
+        note.textContent = sign + diff.toFixed(1) + '% — at the level';
+      }
+    } else {
+      badge.className = 'ma-badge dim'; badge.textContent = 'Enter SPY price';
+    }
+    window._spy20ma = ma20;
+  } catch(e) {
+    document.getElementById('spy20ma').textContent = 'fetch failed';
+  }
+}
+
+// Update 20MA badge when SPY price changes
+const _origOnSpyInput = onSpyInput;
+// Patch: re-evaluate 20MA badge after price loads
+function update20MABadge() {
+  const ma20  = window._spy20ma;
+  const price = market.spy;
+  if (!ma20 || !price) return;
+  const badge = document.getElementById('spy20badge');
+  const note  = document.getElementById('spy20note');
+  const diff  = ((price - ma20) / ma20 * 100);
+  const sign  = diff >= 0 ? '+' : '';
+  if (diff > 1) {
+    badge.className = 'ma-badge above'; badge.textContent = 'ABOVE 20MA';
+    note.textContent = sign + diff.toFixed(1) + '% above — bullish';
+  } else if (diff < -1) {
+    badge.className = 'ma-badge below'; badge.textContent = 'BELOW 20MA';
+    note.textContent = sign + diff.toFixed(1) + '% below — bearish';
+  } else {
+    badge.className = 'ma-badge near'; badge.textContent = 'AT 20MA';
+    note.textContent = sign + diff.toFixed(1) + '% — at the level';
+  }
+}
+
+// ── WATCHLIST SNAPSHOT ────────────────────────────────────
+const WATCHLIST = ['SPY','QQQ','AAPL','MSFT','AMZN','JPM','V'];
+
+async function fetchWatchlist() {
+  const grid  = document.getElementById('wlGrid');
+  const badge = document.getElementById('wlBadge');
+  let html = '<div class="wl-grid">';
+  let loaded = 0;
+
+  const results = await Promise.allSettled(
+    WATCHLIST.map(async ticker => {
+      const url = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${FINNHUB_KEY}`;
+      const res = await fetch(url);
+      const d   = await res.json();
+      return { ticker, c: d.c, pc: d.pc };
+    })
+  );
+
+  results.forEach(r => {
+    if (r.status !== 'fulfilled') {
+      html += `<div class="wl-chip"><div class="wl-ticker">${r.reason?.ticker||'?'}</div><div class="wl-price">—</div><div class="wl-chg flat">err</div></div>`;
+      return;
+    }
+    const { ticker, c, pc } = r.value;
+    const price = (c && c > 0) ? c : (pc && pc > 0) ? pc : null;
+    const prev  = (pc && pc > 0) ? pc : price;
+    if (!price) {
+      html += `<div class="wl-chip"><div class="wl-ticker">${ticker}</div><div class="wl-price">—</div><div class="wl-chg flat">—</div></div>`;
+      return;
+    }
+    const chg  = prev ? ((price - prev) / prev * 100) : 0;
+    const sign = chg >= 0 ? '+' : '';
+    const cls  = chg > 0.2 ? 'up' : chg < -0.2 ? 'down' : 'flat';
+    loaded++;
+    html += `<div class="wl-chip ${cls}">
+      <div class="wl-ticker">${ticker}</div>
+      <div class="wl-price">$${price.toFixed(2)}</div>
+      <div class="wl-chg ${cls}">${sign}${chg.toFixed(2)}%</div>
+    </div>`;
+  });
+
+  html += '</div>';
+  grid.className = '';
+  grid.innerHTML = html;
+  badge.className = loaded > 0 ? 'bb go' : 'bb no';
+  badge.textContent = loaded > 0 ? loaded + '/' + WATCHLIST.length + ' loaded' : 'Failed';
+}
+
+// ── CHECKLIST DRAWER ──────────────────────────────────────
+const CL_STORAGE_KEY = 'tradr_checklist_v1';
+
+const clTools = [
+  { phase:1, phaseLabel:"Build First", phaseClass:"green", num:"01", name:"TRADR Daily Hub",
+    items:["SPY live price and trend indicator","VIX zone display — GO / CAUTION / NO TRADE","Earnings flag for watchlist stocks this week","Single daily verdict output","Test with a simulated no-trade condition before going live"] },
+  { phase:1, phaseLabel:"Build First", phaseClass:"green", num:"02", name:"TRADR Pre-Trade Checklist",
+    items:["7-step checklist structure (SPY → VIX → Watchlist → Earnings → IV → Delta → Cash)","Interactive tick-off — cannot skip steps","ALL PASS = proceed / ANY FAIL = no trade output","Run 5 full practice sessions before first live trade"] },
+  { phase:1, phaseLabel:"Build First", phaseClass:"green", num:"03", name:"TRADR Options Simulator",
+    items:["Enter ticker, strike, expiry, premium manually","Live or manual price tracking against strike","Margin health ratio display as price falls","Assignment scenario modelling","Simulated trade log with outcomes","Complete 10 paper trades before going live"] },
+  { phase:1, phaseLabel:"Build First", phaseClass:"green", num:"04", name:"TRADR Trade Tally",
+    items:["Trade entry: date, ticker, strike, expiry, IV%, delta, premium","Outcome field: expired worthless / assigned / closed early","Running totals: total premium, win rate, average per trade","Assignment log linking to covered call entries","Weekly and monthly income summary view"] },
+  { phase:2, phaseLabel:"Build at Launch", phaseClass:"amber", num:"05", name:"TRADR Capital Allocator",
+    items:["Input total TRADR capital in USD","Core / Growth / Reserve split output in dollars","Max contracts per sub-account at a given strike","Reserve shown as locked — never available","Confirm split is set before first live trade"] },
+  { phase:2, phaseLabel:"Build at Launch", phaseClass:"amber", num:"06", name:"TRADR Position Sizer",
+    items:["Input: available cash, ticker, strike price","Output: max contracts (100 shares per contract rule)","Output: total cash required to secure all contracts","Output: cash remaining — free buffer check","Warning if free buffer drops below 50%"] },
+  { phase:2, phaseLabel:"Build at Launch", phaseClass:"amber", num:"07", name:"TRADR Underlying Watchlist",
+    items:["Initial list of 5–7 approved tickers (SPY, QQQ, AAPL, MSFT, AMZN, JPM, V)","Sector, quality note, and typical IV range per name","Earnings dates for current month flagged","Minimum capital to sell one contract at typical strike","Review and update monthly — not a discovery tool"] },
+  { phase:2, phaseLabel:"Build at Launch", phaseClass:"amber", num:"08", name:"TRADR IV Reference Card",
+    items:["VIX to individual stock IV relationship guide","Sell zone by market condition (calm / moderate / high fear)","Why stock IV is lower than crypto IV — key callout","Too-low IV threshold (premiums not worth the risk)","Too-high IV threshold (fear signal — do not sell into downtrend)"] },
+  { phase:3, phaseLabel:"Build Later", phaseClass:"grey", num:"09", name:"TRADR Premium Compounder",
+    items:["Input current capital, weekly premium rate, reinvestment %","Week-by-week capital projection for 12 months","Contracts available growth as capital compounds","Build only after 4–6 weeks of real premium data exists"] },
+  { phase:3, phaseLabel:"Build Later", phaseClass:"grey", num:"10", name:"TRADR No-Trade Journal",
+    items:["5-field entry: date, SPY status, VIX, check that failed, chart observation","Running count of no-trade sessions","Pattern review after 10 entries — what conditions repeat","Build once sit-out pattern is becoming recognisable"] },
+];
+
+const clGateItems = [
+  "Tools 01–04 are built and tested",
+  "Tools 05–08 are built and capital split is confirmed",
+  "10 simulator trades are logged with outcomes reviewed",
+  "TRADR Framework doc is read and all rules are understood",
+];
+
+function clLoadState() {
+  try { const r = localStorage.getItem(CL_STORAGE_KEY); return r ? JSON.parse(r) : { tools:{}, gate:{} }; }
+  catch { return { tools:{}, gate:{} }; }
+}
+function clSaveState() { localStorage.setItem(CL_STORAGE_KEY, JSON.stringify(clState)); }
+
+let clState = clLoadState();
+
+function clIsMasterDone(tool) {
+  const k = 'tool_' + tool.num;
+  return tool.items.every((_,i) => clState.tools[k+'_sub_'+i]);
+}
+
+function clRenderTools() {
+  const container = document.getElementById('clToolsContainer');
+  if (!container) return;
+  container.innerHTML = '';
+  const phases = [
+    { num:1, label:"Phase 1 — Build First",    cls:"green" },
+    { num:2, label:"Phase 2 — Build at Launch", cls:"amber" },
+    { num:3, label:"Phase 3 — Build Later",     cls:"grey"  },
+  ];
+  phases.forEach(ph => {
+    const phTools = clTools.filter(t => t.phase === ph.num);
+    const done = phTools.filter(t => clIsMasterDone(t)).length;
+    const sec = document.createElement('div');
+    sec.innerHTML = `<div class="cl-phase-title ${ph.cls}" style="margin-bottom:10px;">${ph.label} — ${done}/${phTools.length}</div>`;
+    phTools.forEach(tool => {
+      const k = 'tool_' + tool.num;
+      const masterDone = clIsMasterDone(tool);
+      const open = clState.tools[k+'_open'] || false;
+      const card = document.createElement('div');
+      card.className = 'cl-tool' + (masterDone ? ' complete' : '');
+      const phColor = tool.phaseClass === 'green' ? 'var(--green)' : tool.phaseClass === 'amber' ? 'var(--amber)' : '#666';
+      card.innerHTML = `
+        <div class="cl-tool-hdr" data-tool="${tool.num}">
+          <div class="cl-mcheck"><div class="cl-mbox${masterDone?' checked':''}" data-master="${tool.num}"></div></div>
+          <div class="cl-tnum">${tool.num}</div>
+          <div class="cl-tname">
+            <div class="cl-tname-text">${tool.name}</div>
+            <div class="cl-tphase" style="color:${phColor}">${tool.phaseLabel}</div>
+          </div>
+          <div class="cl-expand"><span class="cl-chevron${open?' open':''}">▾</span></div>
+        </div>
+        <div class="cl-subs${open?' open':''}" id="clsubs_${tool.num}">
+          ${tool.items.map((item,idx) => {
+            const sk = k+'_sub_'+idx;
+            const sd = clState.tools[sk] || false;
+            return `<div class="cl-sub">
+              <div class="cl-scheck"><div class="cl-sbox${sd?' checked':''}" data-subkey="${sk}" data-tool="${tool.num}"></div></div>
+              <div class="cl-spacer"></div>
+              <div class="cl-stext${sd?' checked':''}">${item}</div>
+            </div>`;
+          }).join('')}
+        </div>`;
+      sec.appendChild(card);
+    });
+    container.appendChild(sec);
+  });
+
+  // Events
+  container.querySelectorAll('.cl-tool-hdr').forEach(hdr => {
+    hdr.addEventListener('click', e => {
+      if (e.target.classList.contains('cl-mbox') || e.target.dataset.master) return;
+      const num = hdr.dataset.tool;
+      const subs = document.getElementById('clsubs_' + num);
+      const chev = hdr.querySelector('.cl-chevron');
+      const isOpen = subs.classList.toggle('open');
+      chev.classList.toggle('open', isOpen);
+      clState.tools['tool_'+num+'_open'] = isOpen;
+      clSaveState();
+    });
+  });
+  container.querySelectorAll('.cl-mbox').forEach(box => {
+    box.addEventListener('click', e => {
+      e.stopPropagation();
+      const num  = box.dataset.master;
+      const tool = clTools.find(t => t.num === num);
+      const done = !clIsMasterDone(tool);
+      const k    = 'tool_' + num;
+      tool.items.forEach((_,i) => { clState.tools[k+'_sub_'+i] = done; });
+      clSaveState(); clRerender();
+    });
+  });
+  container.querySelectorAll('.cl-sbox').forEach(box => {
+    box.addEventListener('click', e => {
+      e.stopPropagation();
+      const key = box.dataset.subkey;
+      clState.tools[key] = !clState.tools[key];
+      clSaveState(); clRerender();
+    });
+  });
+}
+
+function clRenderGate() {
+  const container = document.getElementById('clGateItems');
+  if (!container) return;
+  container.innerHTML = '';
+  clGateItems.forEach((text, i) => {
+    const key  = 'gate_' + i;
+    const done = clState.gate[key] || false;
+    const row  = document.createElement('div');
+    row.className = 'cl-gate-item';
+    row.innerHTML = `<div class="cl-gbox${done?' checked':''}" data-gatekey="${key}"></div>
+      <div class="cl-gtext${done?' checked':''}">${text}</div>`;
+    container.appendChild(row);
+  });
+  container.querySelectorAll('.cl-gbox').forEach(box => {
+    box.addEventListener('click', () => {
+      clState.gate[box.dataset.gatekey] = !clState.gate[box.dataset.gatekey];
+      clSaveState(); clRerender();
+    });
+  });
+  const allDone = clGateItems.every((_,i) => clState.gate['gate_'+i]);
+  const s = document.getElementById('clGateStatus');
+  s.className = 'cl-gate-status ' + (allDone ? 'unlocked' : 'locked');
+  s.textContent = allDone ? '✓ Gate Unlocked — Ready for first live trade on IBKR' : '🔒 Gate Locked — Complete all conditions to unlock';
+}
+
+function clRenderProgress() {
+  const total = clTools.length;
+  const done  = clTools.filter(t => clIsMasterDone(t)).length;
+  const pct   = Math.round((done / total) * 100);
+  const barEl = document.getElementById('clBar');
+  const pctEl = document.getElementById('clPct');
+  const chip  = document.getElementById('clDrawerChip');
+  if (barEl) barEl.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '%';
+  if (chip)  { chip.textContent = done+'/'+total; chip.className = done===total ? 'cl-chip g' : done > 0 ? 'cl-chip a' : 'cl-chip gr'; }
+  const p1 = clTools.filter(t=>t.phase===1&&clIsMasterDone(t)).length;
+  const p2 = clTools.filter(t=>t.phase===2&&clIsMasterDone(t)).length;
+  const p3 = clTools.filter(t=>t.phase===3&&clIsMasterDone(t)).length;
+  const g=document.getElementById('clChipG'), a=document.getElementById('clChipA'), gr=document.getElementById('clChipGr');
+  if(g) g.textContent='P1: '+p1+'/4';
+  if(a) a.textContent='P2: '+p2+'/4';
+  if(gr) gr.textContent='P3: '+p3+'/2';
+}
+
+function clRerender() { clRenderTools(); clRenderGate(); clRenderProgress(); }
+
+function toggleClDrawer() {
+  const body  = document.getElementById('clDrawerBody');
+  const arrow = document.getElementById('clDrawerArrow');
+  const isOpen = body.classList.toggle('open');
+  arrow.classList.toggle('open', isOpen);
+  if (isOpen) clRerender();
+}
+
+function clConfirmReset() {
+  if (confirm('Reset all tool checklist progress? This cannot be undone.')) {
+    clState = { tools:{}, gate:{} };
+    clSaveState(); clRerender();
+  }
+}
+
+// ── INIT ───────────────────────────────────────────────────
+renderEarnings();
+loadMarketData();
+fetchSpy20MA();
+fetchWatchlist();
+clRerender();
+</script>
+</body>
+</html>
