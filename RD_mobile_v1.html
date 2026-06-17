@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Raison D'être — Mobile</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #161616;
+    --border: #252525;
+    --gold: #c9a84c;
+    --gold-dim: #7a6330;
+    --white: #e8e8e8;
+    --grey: #888888;
+    --grey-dim: #444444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--black); color: var(--white); font-family: 'Barlow', sans-serif; font-weight: 300; min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* HEADER */
+  .header { background: var(--dark); border-bottom: 1px solid var(--border); padding: 14px 16px; display: flex; align-items: flex-end; justify-content: space-between; }
+  .header-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 3px; color: var(--white); line-height: 1; }
+  .header-title span { color: var(--gold); }
+  .header-sub { font-size: 9px; letter-spacing: 2px; color: var(--grey); text-transform: uppercase; margin-top: 3px; }
+  .header-date { text-align: right; }
+  .header-date .day { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--gold); letter-spacing: 2px; display: block; line-height: 1; }
+  .header-date .date-str { font-size: 9px; color: var(--grey); text-transform: uppercase; }
+
+  /* MAIN */
+  .main { flex: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  .section-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 10px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* TASKS */
+  .card { background: var(--card); border: 1px solid var(--border); overflow: hidden; }
+  .card-header { padding: 10px 14px; border-bottom: 1px solid var(--border); font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 3px; color: var(--gold); display: flex; align-items: center; justify-content: space-between; }
+  .clear-btn { font-size: 9px; letter-spacing: 2px; color: var(--grey-dim); background: none; border: 1px solid var(--grey-dim); padding: 3px 8px; cursor: pointer; font-family: 'Barlow', sans-serif; text-transform: uppercase; }
+  .task-slot { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-bottom: 1px solid var(--border); }
+  .task-check { width: 18px; height: 18px; border: 1px solid var(--grey-dim); cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .task-check.done { background: var(--gold); border-color: var(--gold); }
+  .task-check.done::after { content: '✓'; font-size: 10px; color: var(--black); font-weight: bold; }
+  .task-input { flex: 1; background: transparent; border: none; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 14px; font-weight: 300; outline: none; min-width: 0; padding: 2px 0; }
+  .task-input::placeholder { color: var(--grey-dim); font-style: italic; }
+  .task-input.done { color: var(--grey-dim); text-decoration: line-through; }
+
+  /* NOTES */
+  .notes-label { padding: 8px 14px 3px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--grey-dim); }
+  .notes-textarea { width: 100%; background: transparent; border: none; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 14px; font-weight: 300; line-height: 1.8; padding: 6px 14px 16px; resize: none; outline: none; min-height: 220px; }
+  .notes-textarea::placeholder { color: var(--grey-dim); font-style: italic; }
+
+  /* FOOTER */
+  .footer { border-top: 1px solid var(--border); padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-law { font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--grey-dim); }
+  .footer-law span { color: var(--gold); }
+  .version { font-size: 9px; color: var(--grey-dim); text-transform: uppercase; letter-spacing: 2px; }
+
+  /* SAVE */
+  .save-indicator { position: fixed; bottom: 50px; right: 14px; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); opacity: 0; transition: opacity 0.4s; pointer-events: none; background: var(--dark); padding: 4px 10px; border: 1px solid var(--border); }
+  .save-indicator.show { opacity: 1; }
+
+  /* QUOTE */
+  .quote-box { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--gold-dim); padding: 10px 14px; cursor: pointer; }
+  .quote-box:active { border-left-color: var(--gold); }
+  .quote-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 5px; }
+  .quote-text { font-size: 12px; color: var(--white); line-height: 1.6; font-style: italic; }
+  .quote-source { font-size: 10px; color: var(--grey); margin-top: 4px; }
+  .quote-hint { font-size: 9px; color: var(--grey-dim); margin-top: 3px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">Raison D<span>'</span>être</div>
+    <div class="header-sub">Private — Mobile</div>
+  </div>
+  <div class="header-date">
+    <span class="day" id="dayName"></span>
+    <span class="date-str" id="fullDate"></span>
+  </div>
+</div>
+
+<div class="main">
+
+
+  <div class="quote-box" onclick="nextQuote()">
+    <div class="quote-label">Quote</div>
+    <div class="quote-text" id="quoteText"></div>
+    <div class="quote-source" id="quoteSource"></div>
+    <div class="quote-hint">tap to cycle</div>
+  </div>
+
+  <div class="section-label">Tasks & Notes</div>
+
+  <div class="card">
+    <div class="card-header">
+      <span>Today</span>
+      <button class="clear-btn" onclick="clearDay()">Clear</button>
+    </div>
+    <div id="taskSlots"></div>
+    <div class="notes-label">Notes</div>
+    <textarea class="notes-textarea" id="notesArea" placeholder="Captures, thoughts, ideas..."></textarea>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-law">Only <span>Forward</span> and Grow</div>
+  <div class="version">Mobile — Private</div>
+</div>
+
+<div class="save-indicator" id="saveIndicator">Saved</div>
+
+<script>
+
+// QUOTES
+const QUOTES = [
+  { text: "You must build and grow.", source: "NWO Law" },
+  { text: "There is no way out. For a champion, only forward.", source: "NWO Law" },
+  { text: "Protect the work.", source: "NWO Law" },
+  { text: "Champions do not submit to the poor standards of life, and will find a way.", source: "NWO Law" },
+  { text: "Outside is a warzone, only a few can see.", source: "NWO Law" },
+  { text: "Take what is yours.", source: "NWO Law" },
+  { text: "I fight for my future every day.", source: "NWO Law" },
+  { text: "Waste no more time arguing what a good man should be. Be one.", source: "Marcus Aurelius" },
+  { text: "You have power over your mind, not outside events. Realise this, and you will find strength.", source: "Marcus Aurelius" },
+  { text: "The impediment to action advances action. What stands in the way becomes the way.", source: "Marcus Aurelius" },
+  { text: "Confine yourself to the present.", source: "Marcus Aurelius" },
+  { text: "If it is not right, do not do it. If it is not true, do not say it.", source: "Marcus Aurelius" },
+  { text: "Make the best use of what is in your power, and take the rest as it happens.", source: "Epictetus" },
+  { text: "Seek not the good in external things. Seek it in yourself.", source: "Epictetus" },
+  { text: "Luck is what happens when preparation meets opportunity.", source: "Seneca" },
+  { text: "He who is brave is free.", source: "Seneca" },
+  { text: "An investment in knowledge pays the best interest.", source: "Benjamin Franklin" },
+  { text: "It's not who I am underneath, but what I do that defines me.", source: "Batman" },
+  { text: "Why do we fall? So we can learn to pick ourselves back up.", source: "Batman" },
+  { text: "I must not allow myself to become what I fight against.", source: "Batman" },
+  { text: "I am vengeance.", source: "Batman" },
+  { text: "Peace has cost you your strength. Victory has defeated you.", source: "Bane" },
+  { text: "You think darkness is your ally? You merely adopted the dark. I was born in it.", source: "Bane" },
+  { text: "I'm the best there is at what I do, but what I do best isn't very nice.", source: "Wolverine" },
+  { text: "Surviving isn't living. I know that better than anyone.", source: "Wolverine" },
+  { text: "Every single day is a fight. You keep moving or you die.", source: "Wolverine" },
+  { text: "A strong man doesn't need to read the future. He makes his own.", source: "Solid Snake" },
+  { text: "There's no winning or losing. There's only living and dying.", source: "Solid Snake" },
+  { text: "The greatest battle is not physical but psychological.", source: "Big Boss" },
+  { text: "I need to find my own reason to fight.", source: "Raiden" },
+  { text: "I can do this all day.", source: "Captain America" },
+  { text: "The price of freedom is high. It always has been. And it's a price I'm willing to pay.", source: "Captain America" },
+  { text: "Compromise where you can. Where you can't, don't.", source: "Captain America" },
+  { text: "The strength of a king is not in his throne, but in his willingness to protect his people.", source: "Black Panther" },
+  { text: "Bury me in the ocean with my ancestors who jumped from ships, because they knew death was better than bondage.", source: "Killmonger" },
+  { text: "Part of the journey is the end.", source: "Iron Man" },
+  { text: "I am Iron Man.", source: "Iron Man" },
+  { text: "The cave was where Iron Man was born. Hardship is a forge.", source: "Iron Man" },
+  { text: "Be the hardest worker in the room. Not sometimes. Every time.", source: "Joe Rogan" },
+  { text: "The only way to truly grow is to get comfortable being uncomfortable.", source: "Joe Rogan" },
+  { text: "Discipline equals freedom.", source: "David Goggins" },
+  { text: "No one is going to come save you. No one is coming to push you. It's on you.", source: "David Goggins" },
+  { text: "Destroy weakness wherever you find it.", source: "David Goggins" },
+  { text: "Suffering is the true test of life.", source: "David Goggins" },
+  { text: "It's hard to wake up at 4am and run when you're wearing silk pyjamas.", source: "Marvin Hagler" },
+  { text: "Float like a butterfly, sting like a bee.", source: "Muhammad Ali" },
+  { text: "I hated every minute of training, but I said: don't quit. Suffer now and live the rest of your life as a champion.", source: "Muhammad Ali" },
+  { text: "Champions aren't made in the gyms. Champions are made from something they have deep inside.", source: "Muhammad Ali" },
+  { text: "The fight is won or lost far away from witnesses — behind the lines, in the gym, and out there on the road.", source: "Muhammad Ali" },
+  { text: "You can map out a fight plan, but when the action starts, it may have to be revised.", source: "Joe Frazier" },
+  { text: "I'm a warrior. I've been a warrior all my life.", source: "Evander Holyfield" },
+  { text: "You can't give up. You have to get to the point where it's do or die.", source: "Evander Holyfield" },
+  { text: "Everyone has a plan until they get punched in the mouth.", source: "Mike Tyson" },
+  { text: "Fear is your best friend or your worst enemy.", source: "Mike Tyson" },
+  { text: "Discipline is doing what you hate to do but doing it like you love it.", source: "Mike Tyson" },
+  { text: "A champion is someone who gets up when they can't.", source: "George Foreman" },
+  { text: "Fighting is one percent of boxing. Training is everything.", source: "Sugar Ray Leonard" },
+  { text: "I want to be remembered as a man who gave everything he had.", source: "Sugar Ray Leonard" },
+];
+let quoteIndex = Math.floor(Math.random() * QUOTES.length);
+function showQuote() {
+  const q = QUOTES[quoteIndex];
+  document.getElementById('quoteText').textContent = q.text;
+  document.getElementById('quoteSource').textContent = '— ' + q.source;
+}
+function nextQuote() {
+  let next;
+  do { next = Math.floor(Math.random() * QUOTES.length); } while (next === quoteIndex && QUOTES.length > 1);
+  quoteIndex = next;
+  showQuote();
+}
+showQuote();
+
+// DATE
+const DAYS_W = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const now = new Date();
+document.getElementById('dayName').textContent = DAYS_W[now.getDay()];
+document.getElementById('fullDate').textContent = now.getDate()+' '+MONTHS[now.getMonth()]+' '+now.getFullYear();
+
+// SAVE
+let saveTimer;
+function flashSave() { const el=document.getElementById('saveIndicator'); el.classList.add('show'); clearTimeout(saveTimer); saveTimer=setTimeout(()=>el.classList.remove('show'),1400); }
+function save(key,val) { try { localStorage.setItem(key,JSON.stringify(val)); flashSave(); } catch(e){} }
+function load(key,def) { try { const v=localStorage.getItem(key); return v!==null?JSON.parse(v):def; } catch(e){ return def; } }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// TASKS
+const BLANK_TASKS = () => Array(5).fill(null).map(()=>({text:'',done:false}));
+function renderTasks() {
+  const tasks = load('rdm_tasks', BLANK_TASKS());
+  document.getElementById('taskSlots').innerHTML = tasks.map((t,i)=>`
+    <div class="task-slot">
+      <div class="task-check ${t.done?'done':''}" onclick="toggleTask(${i})"></div>
+      <input class="task-input ${t.done?'done':''}" value="${esc(t.text)}" placeholder="Task ${i+1}..." oninput="updateTask(${i},this.value)">
+    </div>`).join('');
+}
+function toggleTask(i) { const t=load('rdm_tasks',BLANK_TASKS()); t[i].done=!t[i].done; save('rdm_tasks',t); renderTasks(); }
+function updateTask(i,val) { const t=load('rdm_tasks',BLANK_TASKS()); t[i].text=val; save('rdm_tasks',t); }
+function clearDay() { save('rdm_tasks',BLANK_TASKS()); save('rdm_notes',''); renderTasks(); document.getElementById('notesArea').value=''; }
+
+// NOTES
+const ta = document.getElementById('notesArea');
+ta.value = load('rdm_notes','');
+ta.addEventListener('input', () => save('rdm_notes', ta.value));
+
+// INIT
+renderTasks();
+</script>
+</body>
+</html>
