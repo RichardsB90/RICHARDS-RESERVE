@@ -1,5 +1,32 @@
 {
-  "rd_notes": "https://richardsb90.github.io/RICHARDS-RESERVE/\nupdate api keys for TRADR tool\nbjj mount attacks\n5 day option drill refine\nPD positive vids update\nswedish sim build w/speaking function/grow\noptions, target call in bad markets, 5 day news plan ahead\nre-diverse trad stocks",
+  "rd_tasks": [
+    {
+      "text": "5 day option drill refine",
+      "cat": "General",
+      "done": false
+    },
+    {
+      "text": "",
+      "cat": "General",
+      "done": false
+    },
+    {
+      "text": "",
+      "cat": "General",
+      "done": false
+    },
+    {
+      "text": "",
+      "cat": "General",
+      "done": false
+    },
+    {
+      "text": "",
+      "cat": "General",
+      "done": false
+    }
+  ],
+  "rd_notes": "https://richardsb90.github.io/RICHARDS-RESERVE/\nupdate api keys for TRADR tool\nbjj mount attacks\n\nPD positive vids update\nswedish sim build w/speaking function/grow\noptions, target call in bad markets, 5 day news plan ahead\nre-diverse trad stocks",
   "rd_week": {
     "Monday": [
       "Weight training + meditation",
