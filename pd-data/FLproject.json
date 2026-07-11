@@ -52,5 +52,39 @@
       "",
       ""
     ]
-  }
+  },
+  "rd_links": [
+    {
+      "label": "",
+      "url": "https://www.tradingview.com/"
+    },
+    {
+      "label": "",
+      "url": ""
+    },
+    {
+      "label": "",
+      "url": ""
+    },
+    {
+      "label": "",
+      "url": ""
+    },
+    {
+      "label": "",
+      "url": ""
+    },
+    {
+      "label": "",
+      "url": ""
+    },
+    {
+      "label": "",
+      "url": ""
+    },
+    {
+      "label": "",
+      "url": ""
+    }
+  ]
 }
