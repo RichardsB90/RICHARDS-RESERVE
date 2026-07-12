@@ -1,0 +1,56 @@
+{
+  "rd_week": {
+    "Monday": [
+      "Weight training + meditation",
+      "Day job",
+      "RAXA / 6BOX (Crypto)",
+      "Dinner",
+      "BFE Program",
+      "Crypto — deep block"
+    ],
+    "Tuesday": [
+      "Weight training + meditation",
+      "Day job",
+      "RAXA / 6BOX (Crypto)",
+      "Dinner",
+      "BFE Program",
+      "Crypto — deep block"
+    ],
+    "Wednesday": [
+      "Weight training + meditation",
+      "Day job",
+      "RAXA / 6BOX (Crypto)",
+      "Dinner",
+      "BFE Program",
+      "Deload — no deep block"
+    ],
+    "Thursday": [
+      "Weight training + meditation",
+      "Day job",
+      "RAXA / 6BOX (Crypto)",
+      "Dinner",
+      "BFE Program",
+      "Crypto — deep block"
+    ],
+    "Friday": [
+      "Weight training + meditation",
+      "Day job",
+      "RAXA / 6BOX (Crypto)",
+      "Dinner",
+      "BFE Program",
+      "Crypto / Social — pick one"
+    ],
+    "Saturday": [
+      "Crypto — Duraco / backtest",
+      "Physical — training block",
+      "",
+      ""
+    ],
+    "Sunday": [
+      "Crypto — Viraco / study",
+      "Protected rest — no work",
+      "",
+      ""
+    ]
+  }
+}
