@@ -12,6 +12,11 @@
         "id": 2,
         "text": "deribit metrics",
         "done": false
+      },
+      {
+        "id": 3,
+        "text": "capital mgmt",
+        "done": false
       }
     ],
     "4": []
@@ -28,5 +33,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 3
+  "nextId": 4
 }
