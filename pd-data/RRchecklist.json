@@ -1,0 +1,21 @@
+{
+  "items": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": []
+  },
+  "titles": {
+    "1": "Checklist 1",
+    "2": "Checklist 2",
+    "3": "Checklist 3",
+    "4": "Checklist 4"
+  },
+  "collapsed": {
+    "1": false,
+    "2": false,
+    "3": false,
+    "4": false
+  },
+  "nextId": 1
+}
