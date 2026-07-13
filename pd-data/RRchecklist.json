@@ -17,6 +17,11 @@
         "id": 3,
         "text": "capital mgmt",
         "done": false
+      },
+      {
+        "id": 4,
+        "text": "order block/time mgmt",
+        "done": false
       }
     ],
     "4": []
@@ -33,5 +38,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 4
+  "nextId": 5
 }
