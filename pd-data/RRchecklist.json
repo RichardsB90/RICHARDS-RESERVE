@@ -2,7 +2,13 @@
   "items": {
     "1": [],
     "2": [],
-    "3": [],
+    "3": [
+      {
+        "id": 1,
+        "text": "strict option drills",
+        "done": false
+      }
+    ],
     "4": []
   },
   "titles": {
@@ -17,5 +23,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 1
+  "nextId": 2
 }
