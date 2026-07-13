@@ -7,6 +7,11 @@
         "id": 1,
         "text": "strict option drills",
         "done": false
+      },
+      {
+        "id": 2,
+        "text": "deribit metrics",
+        "done": false
       }
     ],
     "4": []
@@ -23,5 +28,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 2
+  "nextId": 3
 }
