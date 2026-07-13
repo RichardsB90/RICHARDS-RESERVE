@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Richards Reserve — Checklist</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:   #0a0c0d;
+  --bg1:  #0d1012;
+  --bg2:  #111618;
+  --bg3:  #161c1f;
+  --border: rgba(255,255,255,0.06);
+  --bm:     rgba(255,255,255,0.10);
+  --gold:   #c8a84a;
+  --gold-d: #8a7230;
+  --gold-g: rgba(200,168,74,0.07);
+  --text:   #b0b8c0;
+  --dim:    #3a4550;
+  --mid:    #6a7a84;
+  --danger: #c0453a;
+  --mono: 'JetBrains Mono', monospace;
+  --serif:'Playfair Display', serif;
+  --sans: 'Inter', sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;min-height:100vh;padding:0;}
+
+@keyframes fadeUp  {from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+@keyframes glow    {0%,100%{box-shadow:0 0 4px rgba(200,168,74,0.18);}50%{box-shadow:0 0 12px rgba(200,168,74,0.4);}}
+@keyframes check   {0%{transform:scale(0);}60%{transform:scale(1.2);}100%{transform:scale(1);}}
+@keyframes pulse   {0%,100%{opacity:0.5;}50%{opacity:1;}}
+@keyframes strikethrough {from{width:0;}to{width:100%;}}
+
+/* HEADER */
+header {
+  background: var(--bg1);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  width: 30px; height: 30px;
+  border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  color: var(--gold); flex-shrink: 0;
+  animation: glow 3.5s ease infinite;
+}
+.brand { font-family: var(--serif); font-size: 13px; font-weight: 700; color: var(--gold); letter-spacing: 0.04em; }
+.brand-sep { color: var(--border); margin: 0 4px; font-family: var(--mono); }
+.brand-sub { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: 0.16em; text-transform: uppercase; }
+.hdr-right { margin-left: auto; display: flex; align-items: center; gap: 20px; }
+.hdr-stat { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: 0.14em; text-align: right; }
+.hdr-stat span { color: var(--gold); font-weight: 500; }
+
+/* WATERMARK */
+.wm {
+  position: fixed; top: 50%; left: -10%; width: 130%;
+  transform: rotate(-28deg) translateY(-50%);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.5em;
+  color: rgba(200,168,74,0.022); white-space: nowrap; word-spacing: 3em;
+  pointer-events: none; z-index: 0; line-height: 6em;
+}
+
+/* MAIN */
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 36px 28px 80px;
+  position: relative; z-index: 1;
+}
+
+.page-title { font-family: var(--serif); font-size: 24px; font-weight: 700; color: #e0d8cc; margin-bottom: 3px; }
+.page-sub   { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase; margin-bottom: 28px; }
+.title-rule { width: 40px; height: 2px; background: var(--gold); margin: 10px 0 24px; }
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media(max-width:640px){ .grid{grid-template-columns:1fr;} }
+
+/* CHECKLIST CARD */
+.cl-card {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  animation: fadeUp 0.3s ease both;
+  animation-delay: calc(var(--i,0) * 0.07s);
+}
+
+/* CARD HEADER */
+.cl-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.cl-head:hover { background: rgba(255,255,255,0.02); }
+.cl-head.open  { border-bottom-color: rgba(200,168,74,0.15); }
+
+.cl-arrow {
+  font-family: var(--mono); font-size: 8px; color: var(--gold);
+  flex-shrink: 0; width: 10px; transition: transform 0.22s;
+}
+.cl-card.collapsed .cl-arrow { transform: rotate(-90deg); }
+
+.cl-title-wrap { flex: 1; }
+.cl-title {
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.16em; color: var(--gold); text-transform: uppercase;
+  outline: none; border: none; background: transparent;
+  width: 100%; cursor: text;
+}
+.cl-title:focus { color: #e0d8cc; }
+.cl-title::placeholder { color: var(--gold-d); }
+
+.cl-progress {
+  font-family: var(--mono); font-size: 9px; color: var(--dim);
+  letter-spacing: 0.1em; flex-shrink: 0; white-space: nowrap;
+}
+.cl-progress .done { color: var(--gold); }
+
+/* CARD BODY */
+.cl-body {
+  overflow: hidden;
+  transition: max-height 0.28s ease;
+}
+.cl-card.collapsed .cl-body { max-height: 0 !important; }
+
+/* ITEM LIST */
+.cl-items { padding: 6px 0; }
+
+.cl-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--border);
+  group: item;
+  animation: fadeUp 0.2s ease both;
+}
+.cl-item:last-child { border-bottom: none; }
+
+/* CHECKBOX */
+.cb {
+  width: 16px; height: 16px; min-width: 16px;
+  border: 1px solid var(--dim);
+  background: transparent;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.cb:hover { border-color: var(--gold); }
+.cb.checked {
+  border-color: var(--gold);
+  background: var(--gold-g);
+}
+.cb.checked::after {
+  content: '✓';
+  font-family: var(--mono); font-size: 10px; color: var(--gold);
+  animation: check 0.18s ease both;
+}
+
+/* ITEM TEXT */
+.item-text {
+  flex: 1; font-size: 12px; color: var(--text);
+  outline: none; border: none; background: transparent;
+  font-family: var(--sans); line-height: 1.5;
+  resize: none; overflow: hidden;
+  min-height: 18px; padding: 0;
+  transition: color 0.2s;
+}
+.item-text::placeholder { color: var(--dim); font-style: italic; }
+.item-text:focus { color: #e0d8cc; }
+.cl-item.done .item-text {
+  color: var(--dim);
+  text-decoration: line-through;
+  text-decoration-color: var(--gold-d);
+}
+
+/* DELETE BUTTON */
+.del-btn {
+  width: 18px; height: 18px;
+  border: none; background: transparent;
+  color: var(--dim); cursor: pointer;
+  font-size: 13px; line-height: 1;
+  flex-shrink: 0; opacity: 0;
+  transition: color 0.15s, opacity 0.15s;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cl-item:hover .del-btn { opacity: 1; }
+.del-btn:hover { color: var(--danger); }
+
+/* ADD ITEM ROW */
+.add-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  border-top: 1px solid var(--border);
+}
+.add-input {
+  flex: 1; font-size: 12px;
+  outline: none; border: none; background: transparent;
+  color: var(--text); font-family: var(--sans);
+  font-style: italic;
+}
+.add-input::placeholder { color: var(--dim); }
+.add-input:focus::placeholder { color: var(--mid); }
+.add-btn {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+  color: var(--gold); border: 1px solid rgba(200,168,74,0.25);
+  background: transparent; padding: 4px 10px; cursor: pointer;
+  text-transform: uppercase; transition: all 0.15s; flex-shrink: 0;
+}
+.add-btn:hover { background: var(--gold-g); border-color: var(--gold); }
+
+/* CARD FOOTER */
+.cl-footer {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--border);
+}
+.clear-btn {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em;
+  color: var(--dim); border: none; background: transparent;
+  cursor: pointer; text-transform: uppercase; padding: 3px 0;
+  transition: color 0.15s;
+}
+.clear-btn:hover { color: var(--danger); }
+.clear-done-btn {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em;
+  color: var(--dim); border: none; background: transparent;
+  cursor: pointer; text-transform: uppercase; padding: 3px 0;
+  transition: color 0.15s;
+}
+.clear-done-btn:hover { color: var(--gold); }
+.footer-spacer { flex: 1; }
+.item-count {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em;
+  color: var(--dim);
+}
+
+/* PROGRESS BAR */
+.prog-bar {
+  height: 2px; background: var(--border);
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%; background: var(--gold);
+  transition: width 0.3s ease;
+}
+
+/* ACCENT COLOURS per card */
+.cl-card[data-acc="cyan"] {
+  --gold: #00c9a7; --gold-d: #007a64;
+  --gold-g: rgba(0,201,167,0.07);
+}
+.cl-card[data-acc="blue"] {
+  --gold: #5b9bd5; --gold-d: #2a5a8a;
+  --gold-g: rgba(91,155,213,0.07);
+}
+.cl-card[data-acc="amber"] {
+  --gold: #d4883a; --gold-d: #8a4a10;
+  --gold-g: rgba(212,136,58,0.07);
+}
+
+/* SYNC */
+.sync-btn {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+  color: var(--dim); border: 1px solid var(--border); background: transparent;
+  padding: 5px 10px; cursor: pointer; text-transform: uppercase;
+  transition: all 0.15s; display: flex; align-items: center; gap: 7px;
+}
+.sync-btn:hover { color: var(--gold); border-color: var(--gold-d); }
+.sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); flex-shrink: 0; }
+.sync-dot.ok { background: #3ecf8e; }
+.sync-dot.err { background: var(--danger); }
+.sync-dot.busy { background: var(--gold); animation: pulse 1s infinite; }
+
+.sync-panel {
+  position: absolute; top: 54px; right: 28px; width: 300px;
+  background: var(--bg2); border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5); padding: 16px;
+  z-index: 200; display: none;
+}
+.sync-panel.open { display: block; }
+.sync-panel label {
+  display: block; font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em;
+  color: var(--dim); text-transform: uppercase; margin: 10px 0 4px;
+}
+.sync-panel label:first-child { margin-top: 0; }
+.sync-panel input {
+  width: 100%; background: var(--bg1); border: 1px solid var(--border);
+  color: var(--text); font-family: var(--mono); font-size: 11px;
+  padding: 7px 8px; outline: none; transition: border-color 0.15s;
+}
+.sync-panel input:focus { border-color: var(--gold-d); }
+.sync-hint { font-size: 9px; color: var(--dim); margin-top: 4px; line-height: 1.4; }
+.sync-actions { display: flex; gap: 8px; margin-top: 14px; }
+.sync-actions button {
+  flex: 1; font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 7px 0; border: 1px solid var(--border);
+  background: transparent; color: var(--text); cursor: pointer; transition: all 0.15s;
+}
+.sync-actions button.primary { border-color: var(--gold-d); color: var(--gold); }
+.sync-actions button:hover { border-color: var(--gold); color: var(--gold); }
+.sync-status-line {
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 9px; color: var(--dim);
+}
+</style>
+</head>
+<body>
+
+<div class="wm">RICHARDS RESERVE · PRIVATE · RICHARDS RESERVE · PRIVATE · RICHARDS RESERVE · PRIVATE</div>
+
+<header>
+  <div class="logo">RR</div>
+  <div class="brand">Richards Reserve</div>
+  <span class="brand-sep">/</span>
+  <span class="brand-sub">Checklists</span>
+  <div class="hdr-right">
+    <div class="hdr-stat" id="global-stat">Total complete: <span id="g-done">0</span> / <span id="g-total">0</span></div>
+    <button class="sync-btn" id="syncBtn" onclick="toggleSyncPanel()">
+      <span class="sync-dot" id="syncDot"></span><span id="syncBtnLabel">Sync</span>
+    </button>
+  </div>
+</header>
+
+<div class="sync-panel" id="syncPanel">
+  <label>GitHub Token</label>
+  <input type="password" id="ghToken" placeholder="ghp_...">
+  <label>Owner / Repo</label>
+  <input type="text" id="ghRepo" placeholder="richardsb90/RICHARDS-RESERVE">
+  <label>File Path</label>
+  <input type="text" id="ghPath" placeholder="pd-data/RRchecklist.json">
+  <div class="sync-hint">Path is the exact JSON file in the repo this checklist syncs to. Keep a copy of it somewhere safe (e.g. password manager) so you can reconnect if browser storage is ever wiped.</div>
+  <div class="sync-actions">
+    <button class="primary" onclick="saveGhSettings()">Save & Push</button>
+    <button onclick="manualPull()">⟳ Pull</button>
+  </div>
+  <div class="sync-status-line" id="syncStatusLine">Not connected</div>
+</div>
+
+<main>
+  <div class="page-title">Checklists</div>
+  <div class="page-sub">Click title to rename · Enter to add item · Collapse to save space</div>
+  <div class="title-rule"></div>
+
+  <div class="grid" id="grid">
+
+    <!-- CARD 1 — gold (default) -->
+    <div class="cl-card" data-id="1" style="--i:0">
+      <div class="cl-head open" onclick="toggleCard(1)">
+        <span class="cl-arrow">▾</span>
+        <div class="cl-title-wrap">
+          <input class="cl-title" type="text" value="Checklist 1" placeholder="List name...">
+        </div>
+        <span class="cl-progress"><span class="done" id="done-1">0</span> / <span id="total-1">0</span></span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-1" style="width:0%"></div></div>
+      <div class="cl-body" id="body-1">
+        <div class="cl-items" id="items-1"></div>
+        <div class="add-row">
+          <input class="add-input" id="add-1" type="text" placeholder="Add item and press Enter...">
+          <button class="add-btn" onclick="addItem(1)">+ Add</button>
+        </div>
+        <div class="cl-footer">
+          <button class="clear-done-btn" onclick="clearDone(1)">Clear done</button>
+          <button class="clear-btn" onclick="clearAll(1)">Clear all</button>
+          <span class="footer-spacer"></span>
+          <span class="item-count" id="count-1">0 items</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 — cyan -->
+    <div class="cl-card" data-id="2" data-acc="cyan" style="--i:1">
+      <div class="cl-head open" onclick="toggleCard(2)">
+        <span class="cl-arrow">▾</span>
+        <div class="cl-title-wrap">
+          <input class="cl-title" type="text" value="Checklist 2" placeholder="List name...">
+        </div>
+        <span class="cl-progress"><span class="done" id="done-2">0</span> / <span id="total-2">0</span></span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-2" style="width:0%"></div></div>
+      <div class="cl-body" id="body-2">
+        <div class="cl-items" id="items-2"></div>
+        <div class="add-row">
+          <input class="add-input" id="add-2" type="text" placeholder="Add item and press Enter...">
+          <button class="add-btn" onclick="addItem(2)">+ Add</button>
+        </div>
+        <div class="cl-footer">
+          <button class="clear-done-btn" onclick="clearDone(2)">Clear done</button>
+          <button class="clear-btn" onclick="clearAll(2)">Clear all</button>
+          <span class="footer-spacer"></span>
+          <span class="item-count" id="count-2">0 items</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 — blue -->
+    <div class="cl-card" data-id="3" data-acc="blue" style="--i:2">
+      <div class="cl-head open" onclick="toggleCard(3)">
+        <span class="cl-arrow">▾</span>
+        <div class="cl-title-wrap">
+          <input class="cl-title" type="text" value="Checklist 3" placeholder="List name...">
+        </div>
+        <span class="cl-progress"><span class="done" id="done-3">0</span> / <span id="total-3">0</span></span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-3" style="width:0%"></div></div>
+      <div class="cl-body" id="body-3">
+        <div class="cl-items" id="items-3"></div>
+        <div class="add-row">
+          <input class="add-input" id="add-3" type="text" placeholder="Add item and press Enter...">
+          <button class="add-btn" onclick="addItem(3)">+ Add</button>
+        </div>
+        <div class="cl-footer">
+          <button class="clear-done-btn" onclick="clearDone(3)">Clear done</button>
+          <button class="clear-btn" onclick="clearAll(3)">Clear all</button>
+          <span class="footer-spacer"></span>
+          <span class="item-count" id="count-3">0 items</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4 — amber -->
+    <div class="cl-card" data-id="4" data-acc="amber" style="--i:3">
+      <div class="cl-head open" onclick="toggleCard(4)">
+        <span class="cl-arrow">▾</span>
+        <div class="cl-title-wrap">
+          <input class="cl-title" type="text" value="Checklist 4" placeholder="List name...">
+        </div>
+        <span class="cl-progress"><span class="done" id="done-4">0</span> / <span id="total-4">0</span></span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-4" style="width:0%"></div></div>
+      <div class="cl-body" id="body-4">
+        <div class="cl-items" id="items-4"></div>
+        <div class="add-row">
+          <input class="add-input" id="add-4" type="text" placeholder="Add item and press Enter...">
+          <button class="add-btn" onclick="addItem(4)">+ Add</button>
+        </div>
+        <div class="cl-footer">
+          <button class="clear-done-btn" onclick="clearDone(4)">Clear done</button>
+          <button class="clear-btn" onclick="clearAll(4)">Clear all</button>
+          <span class="footer-spacer"></span>
+          <span class="item-count" id="count-4">0 items</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+// ── PERSISTENCE ──
+const STORAGE_KEY = 'rr_checklist_data';
+const rawExistedOnLoad = localStorage.getItem(STORAGE_KEY) !== null;
+
+function loadAll() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) { console.error('Load error', e); }
+  return {
+    items: { 1: [], 2: [], 3: [], 4: [] },
+    titles: { 1: 'Checklist 1', 2: 'Checklist 2', 3: 'Checklist 3', 4: 'Checklist 4' },
+    collapsed: { 1: false, 2: false, 3: false, 4: false },
+    nextId: 1
+  };
+}
+
+let suppressPush = false;
+function saveAll() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      items: state, titles, collapsed, nextId
+    }));
+  } catch (e) { console.error('Save error', e); }
+  if (!suppressPush) scheduleGhPush();
+}
+
+// ── STATE ──
+const saved = loadAll();
+const state = saved.items;
+const titles = saved.titles;
+const collapsed = saved.collapsed;
+let nextId = saved.nextId;
+
+// ── TOGGLE COLLAPSE ──
+function toggleCard(id) {
+  const card = document.querySelector(`.cl-card[data-id="${id}"]`);
+  const body = document.getElementById('body-' + id);
+  const isCollapsed = card.classList.contains('collapsed');
+  if (isCollapsed) {
+    card.classList.remove('collapsed');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    setTimeout(() => { body.style.maxHeight = 'none'; }, 300);
+    collapsed[id] = false;
+  } else {
+    body.style.maxHeight = body.scrollHeight + 'px';
+    requestAnimationFrame(() => {
+      body.style.maxHeight = '0';
+      card.classList.add('collapsed');
+    });
+    collapsed[id] = true;
+  }
+  saveAll();
+}
+
+// ── RENDER ITEMS ──
+function render(id) {
+  const container = document.getElementById('items-' + id);
+  const items = state[id];
+  container.innerHTML = '';
+
+  items.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'cl-item' + (item.done ? ' done' : '');
+    row.dataset.itemId = item.id;
+
+    const cb = document.createElement('div');
+    cb.className = 'cb' + (item.done ? ' checked' : '');
+    cb.onclick = () => toggleItem(id, item.id);
+
+    const txt = document.createElement('textarea');
+    txt.className = 'item-text';
+    txt.value = item.text;
+    txt.placeholder = 'Item text...';
+    txt.rows = 1;
+    txt.oninput = function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+      item.text = this.value;
+      saveAll();
+    };
+    txt.onkeydown = function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); focusAdd(id); }
+      if (e.key === 'Backspace' && this.value === '') { deleteItem(id, item.id); }
+    };
+
+    const del = document.createElement('button');
+    del.className = 'del-btn';
+    del.innerHTML = '✕';
+    del.title = 'Remove';
+    del.onclick = () => deleteItem(id, item.id);
+
+    row.appendChild(cb);
+    row.appendChild(txt);
+    row.appendChild(del);
+    container.appendChild(row);
+  });
+
+  updateStats(id);
+  fixBodyHeight(id);
+}
+
+function fixBodyHeight(id) {
+  const card = document.querySelector(`.cl-card[data-id="${id}"]`);
+  const body = document.getElementById('body-' + id);
+  if (!card.classList.contains('collapsed')) body.style.maxHeight = 'none';
+}
+
+// ── ADD ITEM ──
+function addItem(id) {
+  const input = document.getElementById('add-' + id);
+  const text = input.value.trim();
+  if (!text) return;
+  state[id].push({ id: nextId++, text, done: false });
+  input.value = '';
+  render(id);
+  input.focus();
+  saveAll();
+}
+
+function focusAdd(id) {
+  document.getElementById('add-' + id).focus();
+}
+
+// ── TOGGLE DONE ──
+function toggleItem(id, itemId) {
+  const item = state[id].find(i => i.id === itemId);
+  if (item) { item.done = !item.done; render(id); saveAll(); }
+}
+
+// ── DELETE ──
+function deleteItem(id, itemId) {
+  state[id] = state[id].filter(i => i.id !== itemId);
+  render(id);
+  saveAll();
+}
+
+function clearDone(id) {
+  state[id] = state[id].filter(i => !i.done);
+  render(id);
+  saveAll();
+}
+
+function clearAll(id) {
+  state[id] = [];
+  render(id);
+  saveAll();
+}
+
+// ── STATS ──
+function updateStats(id) {
+  const items = state[id];
+  const total = items.length;
+  const done  = items.filter(i => i.done).length;
+  const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('done-' + id).textContent  = done;
+  document.getElementById('total-' + id).textContent = total;
+  document.getElementById('count-' + id).textContent = total + ' item' + (total !== 1 ? 's' : '');
+  document.getElementById('prog-' + id).style.width  = pct + '%';
+
+  // global
+  let gDone = 0, gTotal = 0;
+  [1,2,3,4].forEach(i => {
+    gTotal += state[i].length;
+    gDone  += state[i].filter(x => x.done).length;
+  });
+  document.getElementById('g-done').textContent  = gDone;
+  document.getElementById('g-total').textContent = gTotal;
+}
+
+// ── GITHUB SYNC ──
+const GH_KEY = 'rr_gh_config';
+let ghSha = null;
+let ghPushTimer = null;
+
+function getGhConfig() {
+  try { return JSON.parse(localStorage.getItem(GH_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function setGhConfig(cfg) { localStorage.setItem(GH_KEY, JSON.stringify(cfg)); }
+function ghConfigured(cfg) { return !!(cfg.token && cfg.owner && cfg.path); }
+
+function ghHeaders(token) {
+  return {
+    'Authorization': 'Bearer ' + token,
+    'Accept': 'application/vnd.github+json',
+    'Content-Type': 'application/json'
+  };
+}
+
+function setSyncStatus(s) {
+  const dot = document.getElementById('syncDot');
+  const label = document.getElementById('syncBtnLabel');
+  const line = document.getElementById('syncStatusLine');
+  dot.className = 'sync-dot';
+  if (s === 'syncing') { dot.classList.add('busy'); label.textContent = 'Syncing'; line.textContent = 'Syncing to GitHub…'; }
+  else if (s === 'synced') { dot.classList.add('ok'); label.textContent = 'Synced'; line.textContent = 'Last synced ' + new Date().toLocaleTimeString(); }
+  else if (s === 'error') { dot.classList.add('err'); label.textContent = 'Error'; line.textContent = 'Sync error — check token / repo / path'; }
+  else if (s === 'unconfigured') { label.textContent = 'Sync'; line.textContent = 'Not connected — add GitHub details'; }
+  else { label.textContent = 'Sync'; line.textContent = 'Connected — ready'; }
+}
+
+function toggleSyncPanel() {
+  const panel = document.getElementById('syncPanel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) populateGhForm();
+}
+function populateGhForm() {
+  const cfg = getGhConfig();
+  document.getElementById('ghToken').value = cfg.token || '';
+  document.getElementById('ghRepo').value = cfg.owner && cfg.repo ? (cfg.owner + '/' + cfg.repo) : '';
+  document.getElementById('ghPath').value = cfg.path || 'pd-data/RRchecklist.json';
+}
+
+async function ghFetch() {
+  const cfg = getGhConfig();
+  if (!ghConfigured(cfg)) { setSyncStatus('unconfigured'); return null; }
+  setSyncStatus('syncing');
+  try {
+    const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`;
+    const res = await fetch(url, { headers: ghHeaders(cfg.token) });
+    if (res.status === 404) { ghSha = null; setSyncStatus('idle'); return null; }
+    if (!res.ok) throw new Error('fetch ' + res.status);
+    const data = await res.json();
+    ghSha = data.sha;
+    const decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+    setSyncStatus('synced');
+    return JSON.parse(decoded);
+  } catch (e) {
+    console.error('GitHub fetch error', e);
+    setSyncStatus('error');
+    return null;
+  }
+}
+
+async function ghPush(payload, retried) {
+  const cfg = getGhConfig();
+  if (!ghConfigured(cfg)) { setSyncStatus('unconfigured'); return; }
+  setSyncStatus('syncing');
+  try {
+    const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`;
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+    const body = { message: 'RR Checklist sync — ' + new Date().toISOString(), content };
+    if (ghSha) body.sha = ghSha;
+    const res = await fetch(url, { method: 'PUT', headers: ghHeaders(cfg.token), body: JSON.stringify(body) });
+    if (res.status === 409 && !retried) { await ghFetch(); return ghPush(payload, true); }
+    if (!res.ok) throw new Error('push ' + res.status);
+    const data = await res.json();
+    ghSha = data.content.sha;
+    setSyncStatus('synced');
+  } catch (e) {
+    console.error('GitHub push error', e);
+    setSyncStatus('error');
+  }
+}
+
+function scheduleGhPush() {
+  clearTimeout(ghPushTimer);
+  ghPushTimer = setTimeout(() => {
+    ghPush({ items: state, titles, collapsed, nextId });
+  }, 2000);
+}
+
+function applyRemoteState(remote) {
+  [1, 2, 3, 4].forEach(id => {
+    state[id] = (remote.items && remote.items[id]) || [];
+    titles[id] = (remote.titles && remote.titles[id]) || titles[id];
+    collapsed[id] = !!(remote.collapsed && remote.collapsed[id]);
+  });
+  nextId = remote.nextId || nextId;
+  suppressPush = true;
+  saveAll();
+  suppressPush = false;
+
+  [1, 2, 3, 4].forEach(id => {
+    render(id);
+    const titleInput = document.querySelector(`.cl-card[data-id="${id}"] .cl-title`);
+    if (titleInput) titleInput.value = titles[id];
+    const card = document.querySelector(`.cl-card[data-id="${id}"]`);
+    const head = document.querySelector(`.cl-card[data-id="${id}"] .cl-head`);
+    const body = document.getElementById('body-' + id);
+    if (collapsed[id]) {
+      card.classList.add('collapsed'); head.classList.remove('open'); body.style.maxHeight = '0';
+    } else {
+      card.classList.remove('collapsed'); head.classList.add('open'); body.style.maxHeight = 'none';
+    }
+  });
+}
+
+async function manualPull() {
+  const cfg = getGhConfig();
+  if (!ghConfigured(cfg)) { alert('Add your GitHub token, repo, and path first, then Save.'); return; }
+  if (!confirm('This will overwrite the checklist currently on screen with the version stored on GitHub. Continue?')) return;
+  const remote = await ghFetch();
+  if (!remote) { alert('No file found at that path yet, or the fetch failed. Check the status line for details.'); return; }
+  applyRemoteState(remote);
+}
+
+function saveGhSettings() {
+  const token = document.getElementById('ghToken').value.trim();
+  const repoRaw = document.getElementById('ghRepo').value.trim();
+  const path = document.getElementById('ghPath').value.trim() || 'pd-data/RRchecklist.json';
+  const parts = repoRaw.split('/').map(s => s.trim()).filter(Boolean);
+  if (!token || parts.length !== 2) {
+    alert('Enter your GitHub token and repo as owner/repo (e.g. richardsb90/RICHARDS-RESERVE).');
+    return;
+  }
+  setGhConfig({ token, owner: parts[0], repo: parts[1], path });
+  ghSha = null;
+  ghPush({ items: state, titles, collapsed, nextId });
+}
+
+async function initGithubSync() {
+  const cfg = getGhConfig();
+  if (!ghConfigured(cfg)) { setSyncStatus('unconfigured'); return; }
+  setSyncStatus('idle');
+  if (!rawExistedOnLoad) {
+    // Fresh/empty local storage (e.g. after a browser wipe) — auto-recover from GitHub
+    const remote = await ghFetch();
+    if (remote) applyRemoteState(remote);
+  }
+}
+
+
+[1,2,3,4].forEach(id => {
+  document.getElementById('add-' + id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); addItem(id); }
+  });
+});
+
+// ── TITLE PERSISTENCE ──
+[1,2,3,4].forEach(id => {
+  const titleInput = document.querySelector(`.cl-card[data-id="${id}"] .cl-title`);
+  titleInput.value = titles[id] || titleInput.value;
+  titleInput.addEventListener('input', () => {
+    titles[id] = titleInput.value;
+    saveAll();
+  });
+});
+
+// ── RESTORE COLLAPSED STATE ──
+[1,2,3,4].forEach(id => {
+  if (collapsed[id]) {
+    const card = document.querySelector(`.cl-card[data-id="${id}"]`);
+    const head = document.querySelector(`.cl-card[data-id="${id}"] .cl-head`);
+    const body = document.getElementById('body-' + id);
+    card.classList.add('collapsed');
+    head.classList.remove('open');
+    body.style.maxHeight = '0';
+  }
+});
+
+// init render + stats from saved data
+[1,2,3,4].forEach(id => render(id));
+initGithubSync();
+</script>
+</body>
+</html>
