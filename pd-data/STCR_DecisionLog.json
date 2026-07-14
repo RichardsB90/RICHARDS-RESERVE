@@ -15,11 +15,11 @@
       "spread": "5",
       "supres": "1745",
       "confidence": "2",
-      "verdict": "",
+      "verdict": "10D guess, picked OTM to give time for asset vol",
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 9,
