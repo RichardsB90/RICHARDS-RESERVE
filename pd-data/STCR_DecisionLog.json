@@ -8,7 +8,7 @@
       "asset": "ETH",
       "strike": "1700",
       "spot": "1782",
-      "delta": "",
+      "delta": "-0.16",
       "iv": "",
       "bid": "",
       "bidSize": "",
