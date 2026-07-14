@@ -15,11 +15,11 @@
       "spread": "5",
       "supres": "1745",
       "confidence": "3",
-      "verdict": "",
+      "verdict": "3D no vol tool, just OTM",
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 5,
