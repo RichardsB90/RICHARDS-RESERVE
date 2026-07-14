@@ -12,7 +12,7 @@
       "iv": "53",
       "bid": "7.31",
       "bidSize": "1000",
-      "spread": "",
+      "spread": "5",
       "supres": "",
       "confidence": "",
       "verdict": "",
