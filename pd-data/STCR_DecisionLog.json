@@ -15,11 +15,11 @@
       "spread": "5",
       "supres": "1745",
       "confidence": "3",
-      "verdict": "",
+      "verdict": "3D no vol tool, picked metric pass strike",
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 8,
