@@ -7,7 +7,7 @@
       "expiry": "2026-07-17",
       "asset": "ETH",
       "strike": "1675",
-      "spot": "",
+      "spot": "1781",
       "delta": "",
       "iv": "",
       "bid": "",
@@ -19,7 +19,7 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 5,
