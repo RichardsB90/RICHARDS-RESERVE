@@ -15,11 +15,11 @@
       "spread": "5",
       "supres": "1837",
       "confidence": "4",
-      "verdict": "",
+      "verdict": "high L, good dist from spot, good risk",
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 16,
