@@ -290,8 +290,8 @@
       "confidence": "4",
       "verdict": "risk free trade",
       "spotExpiry": "1882",
-      "outcome": "",
-      "premium": "",
+      "outcome": "W",
+      "premium": "0",
       "open": true
     }
   ],
