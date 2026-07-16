@@ -269,9 +269,9 @@
       "confidence": "4",
       "verdict": "high L for scrape",
       "spotExpiry": "1883",
-      "outcome": "",
-      "premium": "",
-      "open": true
+      "outcome": "W",
+      "premium": "0",
+      "open": false
     },
     {
       "id": 2,
