@@ -247,10 +247,10 @@
       "supres": "1745",
       "confidence": "3",
       "verdict": "strike match from vol tool, ",
-      "spotExpiry": "",
+      "spotExpiry": "1922",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 3,
