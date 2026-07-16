@@ -12,7 +12,7 @@
       "iv": "50",
       "bid": "2.69",
       "bidSize": "477",
-      "spread": "",
+      "spread": "5",
       "supres": "",
       "confidence": "",
       "verdict": "clone from strk 1775, on capped edge",
