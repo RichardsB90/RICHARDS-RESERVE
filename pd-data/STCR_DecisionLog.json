@@ -15,11 +15,11 @@
       "spread": "5",
       "supres": "1837",
       "confidence": "3",
-      "verdict": "Clone of strk 1775, good risk and scrape",
+      "verdict": "Clone of strk 1775, good risk and scrape, high L and dst",
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 20,
