@@ -4,7 +4,7 @@
       "id": 27,
       "number": 27,
       "date": "2026-07-16",
-      "expiry": "",
+      "expiry": "2026-07-18",
       "asset": "ETH",
       "strike": "",
       "spot": "",
@@ -19,7 +19,7 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 26,
