@@ -12,14 +12,14 @@
       "iv": "59",
       "bid": "0.96",
       "bidSize": "500",
-      "spread": "",
+      "spread": "5",
       "supres": "1837",
       "confidence": "4",
       "verdict": "vol tool giving high target due to recent big move, strk with 8% should W",
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 24,
