@@ -1,6 +1,27 @@
 {
   "entries": [
     {
+      "id": 20,
+      "number": 20,
+      "date": "2026-07-16",
+      "expiry": "",
+      "asset": "ETH",
+      "strike": "",
+      "spot": "",
+      "delta": "",
+      "iv": "",
+      "bid": "",
+      "bidSize": "",
+      "spread": "",
+      "supres": "",
+      "confidence": "",
+      "verdict": "",
+      "spotExpiry": "",
+      "outcome": "",
+      "premium": "",
+      "open": false
+    },
+    {
       "id": 19,
       "number": 19,
       "date": "2026-07-16",
@@ -379,5 +400,5 @@
       "open": false
     }
   ],
-  "nextId": 20
+  "nextId": 21
 }
