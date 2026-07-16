@@ -500,9 +500,9 @@
       "confidence": "4",
       "verdict": "diop vol gave 1630, bump to strk for better Prm, risk free scrape",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 10,
@@ -565,7 +565,7 @@
       "spotExpiry": "",
       "outcome": "W",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 7,
