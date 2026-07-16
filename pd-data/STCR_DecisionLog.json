@@ -15,11 +15,11 @@
       "spread": "6",
       "supres": "1837",
       "confidence": "2",
-      "verdict": "caution metric",
+      "verdict": "caution metric, Xs multiple NE",
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 32,
