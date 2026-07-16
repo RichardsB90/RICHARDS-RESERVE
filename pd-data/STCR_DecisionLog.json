@@ -15,11 +15,11 @@
       "spread": "5",
       "supres": "1837",
       "confidence": "4",
-      "verdict": "used 2d vol tool, capped frm 7.5%, no metric pass, Xs",
+      "verdict": "used 2d vol tool, capped frm 7.5%, no metric pass, Xs17,18/7 NE",
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 27,
