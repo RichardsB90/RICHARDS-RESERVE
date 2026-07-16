@@ -15,11 +15,11 @@
       "spread": "6",
       "supres": "1837",
       "confidence": "3",
-      "verdict": "",
+      "verdict": "by best metric D only no iv, close to spot",
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 19,
