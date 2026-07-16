@@ -227,9 +227,9 @@
       "confidence": "3",
       "verdict": "strike picked under vol tool target, far from spot, low risk high L scrape",
       "spotExpiry": "1922",
-      "outcome": "",
-      "premium": "",
-      "open": true
+      "outcome": "W",
+      "premium": "0",
+      "open": false
     },
     {
       "id": 4,
