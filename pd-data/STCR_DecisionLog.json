@@ -499,7 +499,7 @@
       "supres": "1745",
       "confidence": "4",
       "verdict": "diop vol gave 1630, bump to strk for better Prm, risk free scrape",
-      "spotExpiry": "",
+      "spotExpiry": "1882",
       "outcome": "W",
       "premium": "",
       "open": true
