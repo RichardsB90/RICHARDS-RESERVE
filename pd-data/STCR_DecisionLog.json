@@ -9,7 +9,7 @@
       "strike": "1800",
       "spot": "1920",
       "delta": "-0.08",
-      "iv": "",
+      "iv": "50",
       "bid": "",
       "bidSize": "",
       "spread": "",
