@@ -19,7 +19,7 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 14,
@@ -289,10 +289,10 @@
       "supres": "53.5",
       "confidence": "4",
       "verdict": "risk free trade",
-      "spotExpiry": "",
+      "spotExpiry": "1882",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": true
     }
   ],
   "nextId": 16
