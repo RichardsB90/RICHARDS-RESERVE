@@ -373,10 +373,10 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "high L, good dist from spot, good risk",
-      "spotExpiry": "",
+      "spotExpiry": "1826",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 16,
