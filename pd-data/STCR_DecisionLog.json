@@ -376,7 +376,7 @@
       "spotExpiry": "1826",
       "outcome": "L",
       "premium": "0",
-      "open": true
+      "open": false
     },
     {
       "id": 16,
@@ -478,9 +478,9 @@
       "supres": "1745",
       "confidence": "3",
       "verdict": "last risk free strk from 3DC",
-      "spotExpiry": "",
-      "outcome": "",
-      "premium": "",
+      "spotExpiry": "1826",
+      "outcome": "W",
+      "premium": "0",
       "open": false
     },
     {
