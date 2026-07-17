@@ -542,9 +542,9 @@
       "confidence": "3",
       "verdict": "3D no vol tool, picked metric pass strike",
       "spotExpiry": "1826",
-      "outcome": "",
+      "outcome": "W",
       "premium": "0",
-      "open": true
+      "open": false
     },
     {
       "id": 8,
