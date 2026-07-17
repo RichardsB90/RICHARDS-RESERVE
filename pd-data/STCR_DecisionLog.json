@@ -396,7 +396,7 @@
       "verdict": "high l, good dist from spot, good risk free",
       "spotExpiry": "1826",
       "outcome": "",
-      "premium": "",
+      "premium": "0",
       "open": true
     },
     {
