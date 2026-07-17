@@ -205,10 +205,10 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "vol tool giving high target due to recent big move, strk with 8% should W",
-      "spotExpiry": "",
-      "outcome": "",
-      "premium": "",
-      "open": false
+      "spotExpiry": "1826",
+      "outcome": "L",
+      "premium": "0",
+      "open": true
     },
     {
       "id": 24,
