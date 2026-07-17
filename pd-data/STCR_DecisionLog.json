@@ -204,11 +204,11 @@
       "spread": "5",
       "supres": "1837",
       "confidence": "4",
-      "verdict": "vol tool giving high target due to recent big move, strk with 8% should W",
+      "verdict": "vol tool giving high target due to recent big move, strk with 8% should W, lost by 1 dollar, poor buffer",
       "spotExpiry": "1826",
       "outcome": "L",
       "premium": "0",
-      "open": true
+      "open": false
     },
     {
       "id": 24,
