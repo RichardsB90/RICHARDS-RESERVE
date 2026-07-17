@@ -605,9 +605,9 @@
       "confidence": "3",
       "verdict": "3D no vol tool, just OTM",
       "spotExpiry": "1826",
-      "outcome": "",
-      "premium": "",
-      "open": true
+      "outcome": "W",
+      "premium": "0",
+      "open": false
     },
     {
       "id": 5,
