@@ -185,9 +185,9 @@
       "confidence": "4",
       "verdict": "clone of strk1825, good risk DI dist, scrape type",
       "spotExpiry": "1825",
-      "outcome": "",
-      "premium": "",
-      "open": true
+      "outcome": "W",
+      "premium": "0",
+      "open": false
     },
     {
       "id": 25,
