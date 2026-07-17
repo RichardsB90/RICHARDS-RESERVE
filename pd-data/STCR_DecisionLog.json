@@ -184,10 +184,10 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "clone of strk1825, good risk DI dist, scrape type",
-      "spotExpiry": "",
+      "spotExpiry": "1825",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 25,
@@ -502,7 +502,7 @@
       "spotExpiry": "1882",
       "outcome": "W",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 10,
