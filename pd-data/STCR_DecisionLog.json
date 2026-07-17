@@ -395,9 +395,9 @@
       "confidence": "4",
       "verdict": "high l, good dist from spot, good risk free",
       "spotExpiry": "1826",
-      "outcome": "",
+      "outcome": "W",
       "premium": "0",
-      "open": true
+      "open": false
     },
     {
       "id": 15,
