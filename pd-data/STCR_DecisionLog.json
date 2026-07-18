@@ -178,7 +178,8 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": true,
+      "chainIv": "0"
     },
     {
       "id": 26,
