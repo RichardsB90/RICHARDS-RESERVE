@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Richards Reserve — Decision Log</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:   #0a0c0d;
+  --bg1:  #0d1012;
+  --bg2:  #111618;
+  --border: rgba(255,255,255,0.06);
+  --gold:   #c8a84a;
+  --gold-d: #8a7230;
+  --gold-g: rgba(200,168,74,0.07);
+  --text:   #b0b8c0;
+  --dim:    #3a4550;
+  --mid:    #6a7a84;
+  --danger: #c0453a;
+  --success: #3d9a6e;
+  --mono: 'JetBrains Mono', monospace;
+  --serif:'Playfair Display', serif;
+  --sans: 'Inter', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;min-height:100vh;}
+
+@keyframes fadeUp {from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+@keyframes glow {0%,100%{box-shadow:0 0 4px rgba(200,168,74,0.18);}50%{box-shadow:0 0 12px rgba(200,168,74,0.4);}}
+
+header {
+  background: var(--bg1);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  width: 30px; height: 30px;
+  border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  color: var(--gold); flex-shrink: 0;
+  animation: glow 3.5s ease infinite;
+}
+.brand { font-family: var(--serif); font-size: 13px; font-weight: 700; color: var(--gold); letter-spacing: 0.04em; }
+.brand-sep { color: var(--border); margin: 0 4px; font-family: var(--mono); }
+.brand-sub { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: 0.16em; text-transform: uppercase; }
+.hdr-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+.sync-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+  color: var(--dim); background: transparent; border: 1px solid var(--border);
+  padding: 5px 10px; cursor: pointer; text-transform: uppercase;
+}
+.sync-btn:hover { border-color: var(--gold-d); color: var(--gold); }
+.sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); flex-shrink: 0; }
+.sync-dot.ok { background: var(--success); }
+.sync-dot.busy { background: var(--gold); animation: glow 1s ease infinite; }
+.sync-dot.err { background: var(--danger); }
+
+.sync-panel {
+  max-width: 860px; margin: 0 auto; padding: 0 28px;
+  overflow: hidden; max-height: 0; transition: max-height 0.25s ease;
+}
+.sync-panel.open { max-height: 260px; padding: 16px 28px; }
+.sync-inner {
+  background: var(--bg1); border: 1px solid var(--border); padding: 14px 16px;
+}
+.sync-inner label { font-family: var(--mono); font-size: 9px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; display: block; margin: 8px 0 4px; }
+.sync-inner input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  padding: 7px 9px; font-family: var(--mono); font-size: 11px;
+}
+.sync-inner input:focus { outline: none; border-color: var(--gold-d); }
+.sync-row-btns { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
+.sync-save {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold); border: 1px solid rgba(200,168,74,0.25); background: transparent;
+  padding: 6px 12px; cursor: pointer;
+}
+.sync-save:hover { background: var(--gold-g); border-color: var(--gold); }
+.sync-status-line { font-family: var(--mono); font-size: 9px; color: var(--dim); margin-left: auto; }
+
+main { max-width: 860px; margin: 0 auto; padding: 30px 28px 80px; }
+.page-title { font-family: var(--serif); font-size: 22px; font-weight: 700; color: #e0d8cc; margin-bottom: 3px; }
+.page-sub { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; color: var(--dim); text-transform: uppercase; margin-bottom: 18px; }
+.title-rule { width: 40px; height: 2px; background: var(--gold); margin: 8px 0 20px; }
+
+.stats-row { display: flex; gap: 10px; margin-bottom: 22px; }
+.stat-chip {
+  background: var(--bg1); border: 1px solid var(--border); padding: 8px 14px; flex: 1;
+  text-align: center;
+}
+.stat-chip .n { font-family: var(--mono); font-size: 16px; color: var(--gold); font-weight: 500; }
+#s-record { font-size: 13px; }
+.stat-chip .l { font-family: var(--mono); font-size: 8px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+
+.entry {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+  animation: fadeUp 0.25s ease both;
+}
+
+.e-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px; cursor: pointer; user-select: none;
+  border-bottom: 1px solid var(--border);
+}
+.entry.collapsed .e-head { border-bottom-color: transparent; }
+.e-arrow { font-family: var(--mono); font-size: 8px; color: var(--gold); width: 10px; transition: transform 0.2s; }
+.entry.collapsed .e-arrow { transform: rotate(-90deg); }
+.e-summary { flex: 1; font-family: var(--mono); font-size: 11px; color: var(--text); letter-spacing: 0.02em; }
+.e-summary .muted { color: var(--dim); }
+.badge {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 9px; flex-shrink: 0;
+}
+.badge.pending { color: var(--gold); border: 1px solid rgba(200,168,74,0.3); }
+.badge.draft { color: var(--dim); border: 1px solid var(--border); }
+.badge.win { color: var(--success); border: 1px solid rgba(61,154,110,0.35); }
+.badge.loss { color: var(--danger); border: 1px solid rgba(192,69,58,0.35); }
+.e-summary-wrap { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.e-num { color: var(--gold-d); }
+.missing-note { font-family: var(--mono); font-size: 9px; color: var(--danger); letter-spacing: 0.04em; }
+
+.archive-wrap {
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.archive-wrap::-webkit-scrollbar { width: 6px; }
+.archive-wrap::-webkit-scrollbar-track { background: transparent; }
+.archive-wrap::-webkit-scrollbar-thumb { background: var(--border); }
+.archive-wrap::-webkit-scrollbar-thumb:hover { background: var(--gold-d); }
+.archive-label {
+  font-family: var(--mono); font-size: 9px; color: var(--dim); text-transform: uppercase;
+  letter-spacing: 0.14em; margin-bottom: 8px;
+}
+.del-entry {
+  background: transparent; border: none; color: var(--dim); cursor: pointer;
+  font-size: 14px; padding: 0 2px; flex-shrink: 0;
+}
+.del-entry:hover { color: var(--danger); }
+.copy-entry {
+  background: transparent; border: none; color: var(--dim); cursor: pointer;
+  font-size: 12px; padding: 0 4px; flex-shrink: 0; font-family: var(--mono);
+}
+.copy-entry:hover { color: var(--gold); }
+
+@keyframes glowRed {0%,100%{box-shadow:0 0 4px rgba(192,69,58,0.25);}50%{box-shadow:0 0 14px rgba(192,69,58,0.55);}}
+.entry.today-expiry { border-color: rgba(192,69,58,0.5); animation: glowRed 2s ease infinite; }
+.badge.today { color: var(--danger); border: 1px solid rgba(192,69,58,0.4); }
+
+.note-wrap { margin-top: 8px; }
+.note-wrap label {
+  display: block; font-family: var(--mono); font-size: 8px; color: var(--dim);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px;
+}
+.note-wrap textarea {
+  width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  padding: 6px 8px; font-family: var(--sans); font-size: 11px; min-height: 46px; resize: vertical;
+}
+.note-wrap textarea:focus { outline: none; border-color: var(--gold-d); }
+
+.e-body { overflow: hidden; max-height: 900px; transition: max-height 0.28s ease; }
+.entry.collapsed .e-body { max-height: 0 !important; }
+
+.d-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  padding: 14px 16px 4px;
+}
+@media(max-width:640px){ .d-grid{grid-template-columns:repeat(2,1fr);} }
+.d-grid label, .verdict-wrap label, .p-row label {
+  display: block; font-family: var(--mono); font-size: 8px; color: var(--dim);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px;
+}
+.d-grid input, .d-grid select, .verdict-wrap input, .p-row input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  padding: 6px 8px; font-family: var(--mono); font-size: 11px;
+}
+.d-grid input:focus, .d-grid select:focus, .verdict-wrap input:focus, .p-row input:focus {
+  outline: none; border-color: var(--gold-d);
+}
+
+.verdict-wrap { padding: 6px 16px 14px; }
+
+.p-section {
+  border-top: 1px solid var(--border);
+  padding: 12px 16px 14px;
+  background: rgba(255,255,255,0.012);
+}
+.p-label { font-family: var(--mono); font-size: 8px; color: var(--gold-d); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 8px; }
+.p-row { display: flex; gap: 10px; align-items: flex-end; }
+.p-row > div { flex: 1; }
+.wl-btns { display: flex; gap: 6px; flex: 0 0 auto; }
+.wl-btn {
+  font-family: var(--mono); font-size: 11px; font-weight: 600; width: 34px; height: 30px;
+  border: 1px solid var(--border); background: transparent; color: var(--dim); cursor: pointer;
+}
+.wl-btn.w-btn.active { border-color: var(--success); color: var(--success); background: rgba(61,154,110,0.08); }
+.wl-btn.l-btn.active { border-color: var(--danger); color: var(--danger); background: rgba(192,69,58,0.08); }
+.wl-btn:hover { border-color: var(--mid); }
+
+.add-entry-row { margin-top: 14px; }
+.add-entry-btn {
+  width: 100%; padding: 12px; text-align: center;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); border: 1px dashed rgba(200,168,74,0.3); background: transparent; cursor: pointer;
+}
+.add-entry-btn:hover { background: var(--gold-g); border-color: var(--gold); }
+
+.empty-msg { font-family: var(--mono); font-size: 10px; color: var(--dim); text-align: center; padding: 30px 0; }
+
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 200; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--bg1); border: 1px solid var(--border); max-width: 380px; width: 90%;
+  padding: 22px 22px 18px;
+}
+.modal-title {
+  font-family: var(--serif); font-size: 16px; color: var(--danger); margin-bottom: 8px; font-weight: 700;
+}
+.modal-body { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.5; margin-bottom: 18px; }
+.modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
+.modal-btn {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 8px 16px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text);
+}
+.modal-btn.confirm { color: var(--danger); border-color: rgba(192,69,58,0.4); }
+.modal-btn.confirm:hover { background: rgba(192,69,58,0.1); }
+.modal-btn.cancel:hover { border-color: var(--gold-d); color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">RR</div>
+  <div>
+    <span class="brand">RICHARDS RESERVE</span>
+    <span class="brand-sep">/</span>
+    <span class="brand-sub">Decision Log</span>
+  </div>
+  <div class="hdr-right">
+    <button class="sync-btn" onclick="downloadCSV()">Download CSV</button>
+    <button class="sync-btn" onclick="clearAllData()" style="color:var(--danger); border-color:rgba(192,69,58,0.25);">Clear data</button>
+    <button class="sync-btn" onclick="toggleSyncPanel()"><span class="sync-dot" id="syncDot"></span><span id="syncBtnLabel">Sync</span></button>
+  </div>
+</header>
+
+<div class="sync-panel" id="syncPanel">
+  <div class="sync-inner">
+    <label>GitHub token</label>
+    <input type="password" id="ghToken" placeholder="ghp_...">
+    <label>Repo (owner/repo)</label>
+    <input type="text" id="ghRepo" placeholder="richardsb90/RICHARDS-RESERVE">
+    <label>File path</label>
+    <input type="text" id="ghPath" placeholder="pd-data/STCR_DecisionLog.json">
+    <div class="sync-row-btns">
+      <button class="sync-save" onclick="saveGhSettings()">Save + sync</button>
+      <button class="sync-save" onclick="manualPull()">Pull from GitHub</button>
+      <span class="sync-status-line" id="syncStatusLine">Not connected</span>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="page-title">Decision Log &amp; Pending Tracker</div>
+  <div class="page-sub">STCR DI-OP Bridge — strike selection drill</div>
+  <div class="title-rule"></div>
+
+  <div class="stats-row">
+    <div class="stat-chip"><div class="n" id="s-pending">0</div><div class="l">Pending</div></div>
+    <div class="stat-chip"><div class="n" id="s-record">W0-L0</div><div class="l">Record</div></div>
+    <div class="stat-chip"><div class="n" id="s-total">0</div><div class="l">Total logged</div></div>
+  </div>
+
+  <div class="archive-label">Log archive</div>
+  <div class="archive-wrap"><div id="entries-list"></div></div>
+
+  <div class="add-entry-row">
+    <button class="add-entry-btn" onclick="addEntry()">+ New entry</button>
+  </div>
+</main>
+
+<div class="modal-overlay" id="clearModal">
+  <div class="modal-box">
+    <div class="modal-title">Delete all entries?</div>
+    <div class="modal-body">
+      This is <strong>permanent</strong> and cannot be undone. Every entry on this device — draft, pending, and closed — will be erased and numbering will reset to #001.<br><br>
+      Are you sure?
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeClearModal()">No, cancel</button>
+      <button class="modal-btn confirm" onclick="confirmClearData()">Yes, delete all</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let entries = [];
+let nextId = 1;
+
+function load() {
+  try {
+    const raw = localStorage.getItem('stcr_decision_log');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      entries = parsed.entries || [];
+      nextId = parsed.nextId || 1;
+      entries.forEach(e => {
+        if (e.chainIv === undefined) e.chainIv = e.iv || '';
+        if (e.strikeIv === undefined) e.strikeIv = '';
+        if (e.contractType === undefined) e.contractType = 'Linear';
+        if (e.outcomeNote === undefined) e.outcomeNote = '';
+      });
+    }
+  } catch (e) { entries = []; }
+}
+
+function todayStr() { return new Date().toISOString().slice(0,10); }
+
+function calcDte(dateStr, expiryStr) {
+  if (!dateStr || !expiryStr) return '—';
+  const d1 = new Date(dateStr), d2 = new Date(expiryStr);
+  const diff = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+  return isNaN(diff) ? '—' : diff;
+}
+
+function save(skipPush) {
+  localStorage.setItem('stcr_decision_log', JSON.stringify({ entries, nextId }));
+  renderAll();
+  if (!skipPush) scheduleGhPush();
+}
+
+function clearAllData() {
+  document.getElementById('clearModal').classList.add('open');
+}
+function closeClearModal() {
+  document.getElementById('clearModal').classList.remove('open');
+}
+function confirmClearData() {
+  entries = [];
+  nextId = 1;
+  save();
+  closeClearModal();
+}
+
+function addEntry() {
+  const e = {
+    id: nextId,
+    number: nextId,
+    date: new Date().toISOString().slice(0,10),
+    expiry: '', asset: 'ETH', contractType: 'Linear', strike: '', spot: '', delta: '',
+    chainIv: '', strikeIv: '',
+    bid: '', bidSize: '', spread: '', supres: '', confidence: '', verdict: '',
+    spotExpiry: '', outcome: '', outcomeNote: '', premium: '',
+    open: false
+  };
+  nextId++;
+  entries.unshift(e);
+  save();
+}
+
+const REQUIRED_FIELDS = [
+  { key: 'expiry', label: 'Expiry' },
+  { key: 'strike', label: 'Strike' },
+  { key: 'spot', label: 'Spot entry' },
+  { key: 'delta', label: 'Delta' },
+  { key: 'chainIv', label: 'Chain IV' },
+  { key: 'strikeIv', label: 'Strike IV' },
+  { key: 'bid', label: 'Bid' },
+  { key: 'bidSize', label: 'Bid size' },
+  { key: 'spread', label: 'Spread' },
+  { key: 'supres', label: 'Support/Res' },
+  { key: 'confidence', label: 'Confidence' },
+  { key: 'verdict', label: 'Verdict' }
+];
+
+function missingFields(e) {
+  return REQUIRED_FIELDS.filter(f => e[f.key] === '' || e[f.key] === null || e[f.key] === undefined).map(f => f.label);
+}
+
+function computeStatus(e) {
+  if (e.outcome === 'W' || e.outcome === 'L') return 'closed';
+  if (missingFields(e).length > 0) return 'draft';
+  return 'pending';
+}
+
+function deleteEntry(id) {
+  if (!confirm('Delete this entry?')) return;
+  entries = entries.filter(x => x.id !== id);
+  save();
+}
+
+function toggleOpen(id) {
+  const e = entries.find(x => x.id === id);
+  e.open = !e.open;
+  save(true);
+}
+
+function updateField(id, field, value) {
+  const e = entries.find(x => x.id === id);
+  e[field] = value;
+  save();
+}
+
+function setOutcome(id, val) {
+  const e = entries.find(x => x.id === id);
+  e.outcome = e.outcome === val ? '' : val;
+  save();
+}
+
+function copyEntry(id) {
+  const e = entries.find(x => x.id === id);
+  const buf = buffer(e.strike, e.supres);
+  const text =
+`#${String(e.number || e.id).padStart(3,'0')} | ${e.date} | ${e.asset} $${e.strike} ${e.contractType || ''}
+Expiry: ${e.expiry || '—'}  (DTE ${calcDte(e.date, e.expiry)})
+Spot entry: ${e.spot} | Delta: ${e.delta}
+Chain IV: ${e.chainIv}%  Strike IV: ${e.strikeIv}%
+Bid: $${e.bid}  Size: ${e.bidSize}  Spread: ${e.spread}%
+Support/Res: ${e.supres}  Buffer: ${buf !== null ? buf + '%' : '—'}
+Confidence: ${e.confidence}/5
+Verdict: ${e.verdict}`;
+
+  const openFallbackTab = () => {
+    const w = window.open('', '_blank');
+    if (w) {
+      w.document.write('<pre style="white-space:pre-wrap;font-family:monospace;font-size:14px;padding:24px;background:#0a0c0d;color:#b0b8c0;">' + text.replace(/</g,'&lt;') + '</pre>');
+      w.document.title = 'Clone trade — #' + String(e.number || e.id).padStart(3,'0');
+    }
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(openFallbackTab).catch(openFallbackTab);
+  } else {
+    openFallbackTab();
+  }
+}
+
+function downloadCSV() {
+  const headers = ['number','date','expiry','dte','asset','contractType','strike','spot','delta','chainIv','strikeIv','bid','bidSize','spread','supres','buffer','confidence','verdict','spotExpiry','outcome','outcomeNote','premium'];
+  const rows = entries.map(e => headers.map(h => {
+    let v;
+    if (h === 'dte') v = calcDte(e.date, e.expiry);
+    else if (h === 'buffer') v = buffer(e.strike, e.supres) ?? '';
+    else v = e[h] ?? '';
+    v = String(v).replace(/"/g, '""');
+    return `"${v}"`;
+  }).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'STCR_Decision_Log_' + todayStr() + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function buffer(strike, supres) {
+  const s = parseFloat(strike), r = parseFloat(supres);
+  if (!s || !r) return null;
+  return (((r - s) / r) * 100).toFixed(1);
+}
+
+function renderAll() {
+  const list = document.getElementById('entries-list');
+  if (entries.length === 0) {
+    list.innerHTML = '<div class="empty-msg">No entries yet. Log your first strike below.</div>';
+  } else {
+    list.innerHTML = entries.map(e => entryHtml(e)).join('');
+  }
+
+  const pending = entries.filter(x => computeStatus(x) === 'pending').length;
+  const closed = entries.filter(x => computeStatus(x) === 'closed');
+  const wins = closed.filter(x => x.outcome === 'W').length;
+  const losses = closed.filter(x => x.outcome === 'L').length;
+
+  const winPct = closed.length ? Math.round((wins / closed.length) * 100) : null;
+  document.getElementById('s-pending').textContent = pending;
+  document.getElementById('s-record').textContent = 'W' + wins + '-L' + losses + (winPct !== null ? ' (' + winPct + '%)' : '');
+  document.getElementById('s-total').textContent = entries.length;
+}
+
+function entryHtml(e) {
+  const buf = buffer(e.strike, e.supres);
+  const status = computeStatus(e);
+  let badge = '<span class="badge draft">Draft</span>';
+  if (status === 'pending') badge = '<span class="badge pending">Pending</span>';
+  if (status === 'closed') badge = e.outcome === 'W' ? '<span class="badge win">W</span>' : '<span class="badge loss">L</span>';
+
+  const missing = missingFields(e);
+  const missingNote = status === 'draft' ? `<div class="missing-note">${missing.length} field${missing.length !== 1 ? 's' : ''} missing — ${missing.join(', ')}</div>` : '';
+
+  const numPadded = String(e.number || e.id).padStart(3, '0');
+  const collapsedClass = e.open ? '' : 'collapsed';
+  const isToday = e.expiry && e.expiry === todayStr() && status !== 'closed';
+  const todayClass = isToday ? 'today-expiry' : '';
+  const todayBadge = isToday ? '<span class="badge today">Expires today</span>' : '';
+  const dte = calcDte(e.date, e.expiry);
+  return `
+  <div class="entry ${collapsedClass} ${todayClass}" data-id="${e.id}">
+    <div class="e-head" onclick="toggleOpen(${e.id})">
+      <span class="e-arrow">▾</span>
+      <div class="e-summary-wrap">
+        <span class="e-summary"><span class="e-num">#${numPadded}</span> <span class="muted">·</span> ${e.date} <span class="muted">·</span> ${e.asset} ${e.strike ? '$' + e.strike : '<span class="muted">strike?</span>'} <span class="muted">·</span> ${e.expiry || '<span class="muted">no expiry set</span>'}</span>
+        ${missingNote}
+      </div>
+      ${todayBadge}
+      ${badge}
+      <button class="copy-entry" title="Copy for clone trade" onclick="event.stopPropagation(); copyEntry(${e.id})">⧉</button>
+      <button class="del-entry" onclick="event.stopPropagation(); deleteEntry(${e.id})">✕</button>
+    </div>
+    <div class="e-body">
+      <div class="d-grid">
+        <div><label>Date</label><input type="date" value="${e.date}" onchange="updateField(${e.id},'date',this.value)"></div>
+        <div><label>Expiry</label><input type="date" value="${e.expiry}" onchange="updateField(${e.id},'expiry',this.value)"></div>
+        <div><label>DTE (auto)</label><input type="text" value="${dte}" readonly style="color:var(--gold-d);"></div>
+        <div><label>Asset</label><select onchange="updateField(${e.id},'asset',this.value)">
+          <option ${e.asset==='ETH'?'selected':''}>ETH</option><option ${e.asset==='BTC'?'selected':''}>BTC</option>
+        </select></div>
+
+        <div><label>Type</label><select onchange="updateField(${e.id},'contractType',this.value)">
+          <option ${e.contractType==='Linear'?'selected':''}>Linear</option><option ${e.contractType==='Reverse'?'selected':''}>Reverse</option>
+        </select></div>
+        <div><label>Strike</label><input type="number" value="${e.strike}" placeholder="1475" onchange="updateField(${e.id},'strike',this.value)"></div>
+        <div><label>Spot entry</label><input type="number" value="${e.spot}" placeholder="1540" onchange="updateField(${e.id},'spot',this.value)"></div>
+        <div><label>Delta</label><input type="number" step="0.01" value="${e.delta}" placeholder="-0.19" onchange="updateField(${e.id},'delta',this.value)"></div>
+
+        <div><label>Chain IV %</label><input type="number" value="${e.chainIv}" placeholder="65" onchange="updateField(${e.id},'chainIv',this.value)"></div>
+        <div><label>Strike IV %</label><input type="number" value="${e.strikeIv}" placeholder="68" onchange="updateField(${e.id},'strikeIv',this.value)"></div>
+        <div><label>Bid $</label><input type="number" step="0.01" value="${e.bid}" placeholder="18.40" onchange="updateField(${e.id},'bid',this.value)"></div>
+        <div><label>Bid size</label><input type="text" value="${e.bidSize}" placeholder="500+" onchange="updateField(${e.id},'bidSize',this.value)"></div>
+
+        <div><label>Spread %</label><input type="number" step="0.1" value="${e.spread}" placeholder="8.2" onchange="updateField(${e.id},'spread',this.value)"></div>
+        <div><label>Support/Res</label><input type="number" value="${e.supres}" placeholder="1540" onchange="updateField(${e.id},'supres',this.value)"></div>
+        <div><label>Buffer %</label><input type="text" value="${buf !== null ? buf + '%' : '—'}" readonly style="color:var(--gold-d);"></div>
+        <div><label>Confidence 1-5</label><input type="number" min="1" max="5" value="${e.confidence}" placeholder="4" onchange="updateField(${e.id},'confidence',this.value)"></div>
+      </div>
+      <div class="verdict-wrap">
+        <label>Verdict / one-line reason</label>
+        <input type="text" value="${e.verdict}" placeholder="TRADE — clean delta, solid buffer at 5.8% below support" onchange="updateField(${e.id},'verdict',this.value)">
+      </div>
+      <div class="p-section">
+        <div class="p-label">Pending — outcome</div>
+        <div class="p-row">
+          <div><label>Spot @ expiry</label><input type="number" value="${e.spotExpiry}" placeholder="1560" onchange="updateField(${e.id},'spotExpiry',this.value)"></div>
+          <div><label>Premium $</label><input type="number" step="0.01" value="${e.premium}" placeholder="18.40" onchange="updateField(${e.id},'premium',this.value)"></div>
+          <div class="wl-btns">
+            <button class="wl-btn w-btn ${e.outcome==='W'?'active':''}" onclick="setOutcome(${e.id},'W')">W</button>
+            <button class="wl-btn l-btn ${e.outcome==='L'?'active':''}" onclick="setOutcome(${e.id},'L')">L</button>
+          </div>
+        </div>
+        <div class="note-wrap">
+          <label>Outcome note — why it happened</label>
+          <textarea onchange="updateField(${e.id},'outcomeNote',this.value)" placeholder="e.g. BTC dropped 3% pre-expiry, delta spiked to -0.40, held above strike by $12">${e.outcomeNote || ''}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── GITHUB SYNC (same pattern as RR Checklist) ──
+const GH_KEY = 'stcr_dlog_gh_config';
+let ghSha = null;
+let ghPushTimer = null;
+let suppressPush = false;
+
+function getGhConfig() {
+  try { return JSON.parse(localStorage.getItem(GH_KEY)) || {}; }
+  catch (e) { return {}; }
+}
+function setGhConfig(cfg) { localStorage.setItem(GH_KEY, JSON.stringify(cfg)); }
+function ghConfigured(cfg) { return !!(cfg.token && cfg.owner && cfg.path); }
+function ghHeaders(token) {
+  return { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+}
+function setSyncStatus(s) {
+  const dot = document.getElementById('syncDot');
+  const label = document.getElementById('syncBtnLabel');
+  const line = document.getElementById('syncStatusLine');
+  dot.className = 'sync-dot';
+  if (s === 'syncing') { dot.classList.add('busy'); label.textContent = 'Syncing'; line.textContent = 'Syncing to GitHub…'; }
+  else if (s === 'synced') { dot.classList.add('ok'); label.textContent = 'Synced'; line.textContent = 'Last synced ' + new Date().toLocaleTimeString(); }
+  else if (s === 'error') { dot.classList.add('err'); label.textContent = 'Error'; line.textContent = 'Sync error — check token / repo / path'; }
+  else if (s === 'unconfigured') { label.textContent = 'Sync'; line.textContent = 'Not connected — add GitHub details'; }
+  else { label.textContent = 'Sync'; line.textContent = 'Connected — ready'; }
+}
+function toggleSyncPanel() {
+  const panel = document.getElementById('syncPanel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) populateGhForm();
+}
+function populateGhForm() {
+  const cfg = getGhConfig();
+  document.getElementById('ghToken').value = cfg.token || '';
+  document.getElementById('ghRepo').value = cfg.owner && cfg.repo ? (cfg.owner + '/' + cfg.repo) : '';
+  document.getElementById('ghPath').value = cfg.path || 'pd-data/STCR_DecisionLog.json';
+}
+async function ghFetch() {
+  const cfg = getGhConfig();
+  if (!ghConfigured(cfg)) { setSyncStatus('unconfigured'); return null; }
+  setSyncStatus('syncing');
+  try {
+    const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`;
+    const res = await fetch(url, { headers: ghHeaders(cfg.token) });
+    if (res.status === 404) { ghSha = null; setSyncStatus('idle'); return null; }
+    if (!res.ok) throw new Error('fetch ' + res.status);
+    const data = await res.json();
+    ghSha = data.sha;
+    const decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+    setSyncStatus('synced');
+    return JSON.parse(decoded);
+  } catch (e) { console.error(e); setSyncStatus('error'); return null; }
+}
+async function ghPush(payload, retried) {
+  const cfg = getGhConfig();
+  if (!ghConfigured(cfg)) { setSyncStatus('unconfigured'); return; }
+  setSyncStatus('syncing');
+  try {
+    const url = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`;
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+    const body = { message: 'STCR Decision Log sync — ' + new Date().toISOString(), content };
+    if (ghSha) body.sha = ghSha;
+    const res = await fetch(url, { method: 'PUT', headers: ghHeaders(cfg.token), body: JSON.stringify(body) });
+    if (res.status === 409 && !retried) { await ghFetch(); return ghPush(payload, true); }
+    if (!res.ok) throw new Error('push ' + res.status);
+    const data = await res.json();
+    ghSha = data.content.sha;
+    setSyncStatus('synced');
+  } catch (e) { console.error(e); setSyncStatus('error'); }
+}
+function scheduleGhPush() {
+  if (suppressPush) return;
+  clearTimeout(ghPushTimer);
+  ghPushTimer = setTimeout(() => { ghPush({ entries, nextId }); }, 2000);
+}
+async function manualPull() {
+  const cfg = getGhConfig();
+  if (!ghConfigured(cfg)) { alert('Add your GitHub token, repo, and path first, then Save.'); return; }
+  if (!confirm('This will overwrite the log currently on screen with the version on GitHub. Continue?')) return;
+  const remote = await ghFetch();
+  if (!remote) { alert('No file found at that path yet, or the fetch failed.'); return; }
+  entries = remote.entries || [];
+  nextId = remote.nextId || 1;
+  suppressPush = true;
+  save();
+  suppressPush = false;
+}
+function saveGhSettings() {
+  const token = document.getElementById('ghToken').value.trim();
+  const repoRaw = document.getElementById('ghRepo').value.trim();
+  const path = document.getElementById('ghPath').value.trim() || 'pd-data/STCR_DecisionLog.json';
+  const parts = repoRaw.split('/').map(s => s.trim()).filter(Boolean);
+  if (!token || parts.length !== 2) {
+    alert('Enter your GitHub token and repo as owner/repo (e.g. richardsb90/RICHARDS-RESERVE).');
+    return;
+  }
+  setGhConfig({ token, owner: parts[0], repo: parts[1], path });
+  ghSha = null;
+  ghPush({ entries, nextId });
+}
+async function initGithubSync() {
+  const cfg = getGhConfig();
+  if (!ghConfigured(cfg)) { setSyncStatus('unconfigured'); return; }
+  setSyncStatus('idle');
+  if (entries.length === 0) {
+    const remote = await ghFetch();
+    if (remote) {
+      entries = remote.entries || [];
+      nextId = remote.nextId || 1;
+      suppressPush = true;
+      save();
+      suppressPush = false;
+    }
+  }
+}
+
+load();
+renderAll();
+initGithubSync();
+</script>
+</body>
+</html>
