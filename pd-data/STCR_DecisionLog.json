@@ -465,7 +465,9 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": true,
+      "chainIv": "0",
+      "strikeIv": "0"
     },
     {
       "id": 13,
@@ -486,7 +488,7 @@
       "spotExpiry": "",
       "outcome": "W",
       "premium": "",
-      "open": true,
+      "open": false,
       "chainIv": "0",
       "strikeIv": "0",
       "outcomeNote": "buffer was wrong, but still W"
