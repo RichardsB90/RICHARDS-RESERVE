@@ -179,7 +179,8 @@
       "outcome": "",
       "premium": "",
       "open": true,
-      "chainIv": "0"
+      "chainIv": "00",
+      "strikeIv": "0"
     },
     {
       "id": 26,
