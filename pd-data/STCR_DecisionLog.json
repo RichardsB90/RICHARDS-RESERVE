@@ -465,9 +465,10 @@
       "spotExpiry": "",
       "outcome": "W",
       "premium": "",
-      "open": true,
+      "open": false,
       "chainIv": "0",
-      "strikeIv": "0"
+      "strikeIv": "0",
+      "outcomeNote": "W via dist with NE"
     },
     {
       "id": 13,
