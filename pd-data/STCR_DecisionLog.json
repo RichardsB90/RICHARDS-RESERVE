@@ -63,7 +63,7 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true,
+      "open": false,
       "chainIv": "0",
       "strikeIv": "0"
     },
@@ -241,7 +241,7 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true,
+      "open": false,
       "chainIv": "0",
       "strikeIv": "0"
     },
@@ -484,9 +484,9 @@
       "confidence": "3",
       "verdict": "best metric OTM  NE",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "L",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 12,
