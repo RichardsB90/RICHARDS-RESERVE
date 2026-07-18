@@ -61,7 +61,7 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 31,
@@ -82,8 +82,9 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true,
-      "chainIv": "0"
+      "open": false,
+      "chainIv": "0",
+      "strikeIv": "0"
     },
     {
       "id": 30,
