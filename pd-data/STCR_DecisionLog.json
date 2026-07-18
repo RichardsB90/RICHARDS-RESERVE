@@ -124,7 +124,9 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": false
+      "open": false,
+      "chainIv": "0",
+      "strikeIv": "0"
     },
     {
       "id": 28,
@@ -145,7 +147,7 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true,
+      "open": false,
       "chainIv": "0",
       "strikeIv": "0"
     },
