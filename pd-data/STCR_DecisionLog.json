@@ -61,7 +61,9 @@
       "spotExpiry": "",
       "outcome": "",
       "premium": "",
-      "open": true
+      "open": true,
+      "chainIv": "0",
+      "strikeIv": "0"
     },
     {
       "id": 31,
