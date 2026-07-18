@@ -180,7 +180,8 @@
       "premium": "",
       "open": true,
       "chainIv": "0",
-      "strikeIv": "0"
+      "strikeIv": "0",
+      "outcomeNote": "W via pullback, buffer poor"
     },
     {
       "id": 26,
