@@ -486,7 +486,8 @@
       "spotExpiry": "",
       "outcome": "L",
       "premium": "",
-      "open": true
+      "open": true,
+      "chainIv": "0"
     },
     {
       "id": 12,
