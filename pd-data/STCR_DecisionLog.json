@@ -484,11 +484,12 @@
       "confidence": "3",
       "verdict": "best metric OTM  NE",
       "spotExpiry": "",
-      "outcome": "L",
+      "outcome": "W",
       "premium": "",
       "open": true,
       "chainIv": "0",
-      "strikeIv": "0"
+      "strikeIv": "0",
+      "outcomeNote": "buffer was wrong, but still W"
     },
     {
       "id": 12,
