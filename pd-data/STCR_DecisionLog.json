@@ -176,10 +176,10 @@
       "confidence": "4",
       "verdict": "clone of strk1825, good risk scrape type, Xs 17/7 NE",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "premium": "",
       "open": true,
-      "chainIv": "00",
+      "chainIv": "0",
       "strikeIv": "0"
     },
     {
