@@ -134,7 +134,8 @@
       "premium": "",
       "open": true,
       "chainIv": "0",
-      "strikeIv": "0"
+      "strikeIv": "0",
+      "outcomeNote": "buffer <5%"
     },
     {
       "id": 28,
