@@ -84,9 +84,9 @@
       "confidence": "4",
       "verdict": "clone of strk1775, better risk, scrape type",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "premium": "",
-      "open": false,
+      "open": true,
       "chainIv": "0",
       "strikeIv": "0"
     },
@@ -132,7 +132,7 @@
       "spotExpiry": "",
       "outcome": "W",
       "premium": "",
-      "open": true,
+      "open": false,
       "chainIv": "0",
       "strikeIv": "0",
       "outcomeNote": "buffer <5%"
