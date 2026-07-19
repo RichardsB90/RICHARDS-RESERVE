@@ -311,9 +311,9 @@
       "confidence": "3",
       "verdict": "Clone of strk 1775, good risk and scrape, high L and dst",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "premium": "",
-      "open": false,
+      "open": true,
       "chainIv": "0",
       "strikeIv": "0"
     },
@@ -336,7 +336,7 @@
       "spotExpiry": "",
       "outcome": "W",
       "premium": "",
-      "open": true,
+      "open": false,
       "chainIv": "0",
       "strikeIv": "0",
       "outcomeNote": "bad buffer"
