@@ -357,9 +357,9 @@
       "confidence": "3",
       "verdict": "no metric pass, gone by strk dist",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "premium": "",
-      "open": false,
+      "open": true,
       "chainIv": "0",
       "strikeIv": "0"
     },
