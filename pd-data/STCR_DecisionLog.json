@@ -155,9 +155,10 @@
       "spotExpiry": "1868",
       "outcome": "W",
       "premium": "0",
-      "open": true,
+      "open": false,
       "chainIv": "0",
-      "strikeIv": "0"
+      "strikeIv": "0",
+      "outcomeNote": "buffer <5%"
     },
     {
       "id": 27,
