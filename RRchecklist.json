@@ -20,6 +20,11 @@
         "id": 24,
         "text": "add buffer/support, strk field",
         "done": false
+      },
+      {
+        "id": 25,
+        "text": "create WL log for DI",
+        "done": false
       }
     ],
     "2": [
@@ -96,5 +101,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 25
+  "nextId": 26
 }
