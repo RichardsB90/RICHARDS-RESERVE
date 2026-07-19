@@ -15,6 +15,11 @@
         "id": 22,
         "text": "no trade, poor metrics, compressed chain, other platform showing same",
         "done": false
+      },
+      {
+        "id": 24,
+        "text": "add buffer/support, strk field",
+        "done": false
       }
     ],
     "2": [
@@ -91,5 +96,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 24
+  "nextId": 25
 }
