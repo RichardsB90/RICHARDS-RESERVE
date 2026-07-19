@@ -356,9 +356,9 @@
       "supres": "1837",
       "confidence": "3",
       "verdict": "no metric pass, gone by strk dist",
-      "spotExpiry": "",
+      "spotExpiry": "1869",
       "outcome": "W",
-      "premium": "",
+      "premium": "0",
       "open": true,
       "chainIv": "0",
       "strikeIv": "0"
