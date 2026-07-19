@@ -154,7 +154,7 @@
       "verdict": "used 2d vol tool, capped frm 7.5%, no metric pass, Xs17,18/7 NE",
       "spotExpiry": "1868",
       "outcome": "W",
-      "premium": "",
+      "premium": "0",
       "open": true,
       "chainIv": "0",
       "strikeIv": "0"
