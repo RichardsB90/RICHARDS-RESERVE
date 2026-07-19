@@ -338,7 +338,8 @@
       "premium": "",
       "open": true,
       "chainIv": "0",
-      "strikeIv": "0"
+      "strikeIv": "0",
+      "outcomeNote": "bad buffer"
     },
     {
       "id": 19,
