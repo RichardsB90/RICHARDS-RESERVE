@@ -334,9 +334,9 @@
       "confidence": "3",
       "verdict": "by best metric D only no iv, close to spot",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "premium": "",
-      "open": false,
+      "open": true,
       "chainIv": "0",
       "strikeIv": "0"
     },
@@ -359,7 +359,7 @@
       "spotExpiry": "1869",
       "outcome": "W",
       "premium": "0",
-      "open": true,
+      "open": false,
       "chainIv": "0",
       "strikeIv": "0",
       "outcomeNote": "buffer <5%"
