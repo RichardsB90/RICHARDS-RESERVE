@@ -1,0 +1,94 @@
+{
+  "items": {
+    "1": [
+      {
+        "id": 11,
+        "text": "Basic D metric annotate",
+        "done": false
+      },
+      {
+        "id": 14,
+        "text": "Vol tool % target explained",
+        "done": false
+      },
+      {
+        "id": 16,
+        "text": "Add 3d to 1-2vol tool when metrics are bad",
+        "done": false
+      },
+      {
+        "id": 22,
+        "text": "no trade, poor metrics, compressed chain, other platform showing same",
+        "done": false
+      }
+    ],
+    "2": [],
+    "3": [
+      {
+        "id": 1,
+        "text": "strict option drills",
+        "done": false
+      },
+      {
+        "id": 2,
+        "text": "deribit metrics",
+        "done": false
+      },
+      {
+        "id": 3,
+        "text": "capital mgmt",
+        "done": false
+      },
+      {
+        "id": 4,
+        "text": "order block/time mgmt",
+        "done": false
+      },
+      {
+        "id": 5,
+        "text": "option drill/pattern find",
+        "done": false
+      }
+    ],
+    "4": [
+      {
+        "id": 6,
+        "text": "PD positive vids update",
+        "done": false
+      },
+      {
+        "id": 7,
+        "text": "social media build",
+        "done": true
+      },
+      {
+        "id": 8,
+        "text": "RR logo",
+        "done": false
+      },
+      {
+        "id": 9,
+        "text": "swedish sim build w/speaking function/grow",
+        "done": false
+      },
+      {
+        "id": 10,
+        "text": "vision board update",
+        "done": false
+      }
+    ]
+  },
+  "titles": {
+    "1": "list",
+    "2": "RR archive build",
+    "3": "DI-Op drills",
+    "4": "RD"
+  },
+  "collapsed": {
+    "1": false,
+    "2": false,
+    "3": false,
+    "4": false
+  },
+  "nextId": 23
+}
