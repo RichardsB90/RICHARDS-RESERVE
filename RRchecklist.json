@@ -10,6 +10,11 @@
         "id": 27,
         "text": "toll upgrade to give buffer target",
         "done": false
+      },
+      {
+        "id": 28,
+        "text": "market time entry",
+        "done": false
       }
     ],
     "2": [
@@ -86,5 +91,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 28
+  "nextId": 29
 }
