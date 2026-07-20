@@ -5,6 +5,11 @@
         "id": 26,
         "text": "collect3 day data for 1-2d",
         "done": false
+      },
+      {
+        "id": 27,
+        "text": "toll upgrade to give buffer target",
+        "done": false
       }
     ],
     "2": [
@@ -81,5 +86,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 27
+  "nextId": 28
 }
