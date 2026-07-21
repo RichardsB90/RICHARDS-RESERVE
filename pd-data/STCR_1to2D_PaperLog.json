@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "id": 17,
+      "number": 17,
+      "date": "2026-07-21",
+      "expiry": "",
+      "asset": "ETH",
+      "contractType": "Linear",
+      "zone": "",
+      "strike": "",
+      "failStrike": "",
+      "spot": "",
+      "delta": "",
+      "chainIv": "",
+      "strikeIv": "",
+      "bid": "",
+      "bidSize": "",
+      "spread": "",
+      "supres": "",
+      "confidence": "",
+      "verdict": "",
+      "spotExpiry": "",
+      "outcome": "",
+      "outcomeNote": "",
+      "premium": "",
+      "open": true
+    },
+    {
       "id": 16,
       "number": 16,
       "date": "2026-07-21",
@@ -24,7 +50,7 @@
       "outcome": "",
       "outcomeNote": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 15,
@@ -417,5 +443,5 @@
       "zone": ""
     }
   ],
-  "nextId": 17
+  "nextId": 18
 }
