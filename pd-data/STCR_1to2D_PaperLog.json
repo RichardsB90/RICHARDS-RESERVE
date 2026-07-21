@@ -8,7 +8,7 @@
       "asset": "ETH",
       "contractType": "Linear",
       "zone": "1825-1850",
-      "strike": "",
+      "strike": "1825",
       "failStrike": "",
       "spot": "",
       "delta": "",
