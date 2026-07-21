@@ -10,7 +10,7 @@
       "zone": "1800-1825",
       "strike": "1725",
       "failStrike": "1825",
-      "spot": "",
+      "spot": "1933",
       "delta": "",
       "chainIv": "",
       "strikeIv": "",
