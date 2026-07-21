@@ -8,7 +8,7 @@
       "asset": "ETH",
       "contractType": "Reverse",
       "zone": "1800-1825",
-      "strike": "",
+      "strike": "1775",
       "failStrike": "",
       "spot": "",
       "delta": "",
