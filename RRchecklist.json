@@ -15,6 +15,11 @@
         "id": 29,
         "text": "tool upgrade v2",
         "done": false
+      },
+      {
+        "id": 30,
+        "text": "framework merge/cleanup",
+        "done": false
       }
     ],
     "2": [
@@ -91,5 +96,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 30
+  "nextId": 31
 }
