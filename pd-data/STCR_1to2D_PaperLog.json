@@ -6,7 +6,7 @@
       "date": "2026-07-21",
       "expiry": "2026-07-23",
       "asset": "ETH",
-      "contractType": "Linear",
+      "contractType": "Reverse",
       "zone": "",
       "strike": "",
       "failStrike": "",
