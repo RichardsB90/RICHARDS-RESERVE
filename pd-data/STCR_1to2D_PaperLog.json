@@ -436,11 +436,11 @@
       "supres": "1837",
       "confidence": "3",
       "verdict": "1 less vol strk for better risk, still too close, buffer caution",
-      "spotExpiry": "",
-      "outcome": "",
+      "spotExpiry": "1903",
+      "outcome": "W",
       "outcomeNote": "",
-      "premium": "",
-      "open": false
+      "premium": "0",
+      "open": true
     },
     {
       "id": 4,
@@ -517,7 +517,7 @@
       "outcome": "W",
       "outcomeNote": "spot spiked, good buffer",
       "premium": "0",
-      "open": true,
+      "open": false,
       "zone": ""
     },
     {
