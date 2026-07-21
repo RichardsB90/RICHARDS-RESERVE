@@ -16,7 +16,7 @@
       "strikeIv": "66",
       "bid": "0.19",
       "bidSize": "800+",
-      "spread": "",
+      "spread": "5",
       "supres": "",
       "confidence": "",
       "verdict": "",
