@@ -4,7 +4,7 @@
       "id": 15,
       "number": 15,
       "date": "2026-07-21",
-      "expiry": "",
+      "expiry": "2026-07-22",
       "asset": "ETH",
       "contractType": "Linear",
       "zone": "",
@@ -24,7 +24,7 @@
       "outcome": "",
       "outcomeNote": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 14,
