@@ -385,10 +385,10 @@
       "confidence": "4",
       "verdict": "clone of strk1750",
       "spotExpiry": "1903",
-      "outcome": "",
+      "outcome": "W",
       "outcomeNote": "",
-      "premium": "",
-      "open": true
+      "premium": "0",
+      "open": false
     },
     {
       "id": 6,
