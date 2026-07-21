@@ -19,12 +19,12 @@
       "spread": "5",
       "supres": "1837",
       "confidence": "4",
-      "verdict": "",
+      "verdict": "clone of strk1800",
       "spotExpiry": "",
       "outcome": "",
       "outcomeNote": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 20,
