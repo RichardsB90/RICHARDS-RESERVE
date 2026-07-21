@@ -541,9 +541,9 @@
       "verdict": "cdtn ok, good dist, ",
       "spotExpiry": "1903",
       "outcome": "W",
-      "outcomeNote": "",
+      "outcomeNote": "spot spiked, good buffer",
       "premium": "0",
-      "open": true,
+      "open": false,
       "zone": ""
     }
   ],
