@@ -513,11 +513,11 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "cln of srtk1700",
-      "spotExpiry": "",
-      "outcome": "",
+      "spotExpiry": "1903",
+      "outcome": "W",
       "outcomeNote": "",
-      "premium": "",
-      "open": false,
+      "premium": "0",
+      "open": true,
       "zone": ""
     },
     {
