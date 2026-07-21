@@ -539,11 +539,11 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "cdtn ok, good dist, ",
-      "spotExpiry": "",
+      "spotExpiry": "1903",
       "outcome": "",
       "outcomeNote": "",
       "premium": "",
-      "open": false,
+      "open": true,
       "zone": ""
     }
   ],
