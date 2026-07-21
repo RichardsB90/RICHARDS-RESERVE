@@ -11,7 +11,7 @@
       "strike": "1800",
       "failStrike": "1825",
       "spot": "1934",
-      "delta": "",
+      "delta": "-0.04",
       "chainIv": "",
       "strikeIv": "",
       "bid": "",
