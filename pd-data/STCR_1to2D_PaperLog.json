@@ -9,7 +9,7 @@
       "contractType": "Reverse",
       "zone": "1825-1850",
       "strike": "1825",
-      "failStrike": "",
+      "failStrike": "1850",
       "spot": "",
       "delta": "",
       "chainIv": "",
