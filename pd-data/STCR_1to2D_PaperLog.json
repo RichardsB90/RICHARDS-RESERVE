@@ -540,9 +540,9 @@
       "confidence": "4",
       "verdict": "cdtn ok, good dist, ",
       "spotExpiry": "1903",
-      "outcome": "",
+      "outcome": "W",
       "outcomeNote": "",
-      "premium": "",
+      "premium": "0",
       "open": true,
       "zone": ""
     }
