@@ -9,7 +9,7 @@
       "contractType": "Linear",
       "zone": "1800-1825",
       "strike": "1800",
-      "failStrike": "",
+      "failStrike": "1825",
       "spot": "",
       "delta": "",
       "chainIv": "",
