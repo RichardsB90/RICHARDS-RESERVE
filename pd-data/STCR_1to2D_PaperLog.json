@@ -15,7 +15,7 @@
       "chainIv": "",
       "strikeIv": "",
       "bid": "",
-      "bidSize": "",
+      "bidSize": "75",
       "spread": "5",
       "supres": "",
       "confidence": "",
