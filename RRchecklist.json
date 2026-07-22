@@ -20,6 +20,11 @@
         "id": 34,
         "text": "deribit metrics",
         "done": false
+      },
+      {
+        "id": 35,
+        "text": "tool upgrade v2",
+        "done": false
       }
     ],
     "2": [
@@ -52,7 +57,7 @@
       },
       {
         "id": 33,
-        "text": "tool upgrade v2",
+        "text": "",
         "done": false
       }
     ],
@@ -96,5 +101,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 35
+  "nextId": 36
 }
