@@ -15,6 +15,11 @@
         "id": 29,
         "text": "option allocation capital mgmt",
         "done": false
+      },
+      {
+        "id": 34,
+        "text": "deribit metrics",
+        "done": false
       }
     ],
     "2": [
@@ -91,5 +96,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 34
+  "nextId": 35
 }
