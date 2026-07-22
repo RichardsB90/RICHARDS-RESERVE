@@ -13,7 +13,7 @@
       },
       {
         "id": 29,
-        "text": "option allocation",
+        "text": "option allocation capital mgmt",
         "done": false
       }
     ],
@@ -33,11 +33,6 @@
       {
         "id": 2,
         "text": "deribit metrics",
-        "done": false
-      },
-      {
-        "id": 3,
-        "text": "capital mgmt",
         "done": false
       },
       {
