@@ -23,7 +23,7 @@
       },
       {
         "id": 31,
-        "text": "any vol % give dollar number",
+        "text": "",
         "done": false
       }
     ],
@@ -58,6 +58,11 @@
       {
         "id": 5,
         "text": "option drill/pattern find",
+        "done": false
+      },
+      {
+        "id": 32,
+        "text": "any vol % give dollar number",
         "done": false
       }
     ],
@@ -101,5 +106,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 32
+  "nextId": 33
 }
