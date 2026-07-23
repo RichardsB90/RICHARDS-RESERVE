@@ -282,9 +282,9 @@
       "verdict": "clone of strk1750, huge scrape, high L, safe risk",
       "spotExpiry": "1915",
       "outcome": "W",
-      "outcomeNote": "",
+      "outcomeNote": "W via range peak",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 10,
