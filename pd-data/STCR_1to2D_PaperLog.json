@@ -180,7 +180,7 @@
       "outcome": "W",
       "outcomeNote": "W via range peak",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 14,
@@ -487,11 +487,11 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "1strk less for better risk, buffer pass, good L",
-      "spotExpiry": "1915",
+      "spotExpiry": "1930",
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": false,
+      "open": true,
       "zone": "1725-1750"
     },
     {
