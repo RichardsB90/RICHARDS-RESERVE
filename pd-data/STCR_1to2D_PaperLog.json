@@ -254,8 +254,8 @@
       "supres": "1837",
       "confidence": "3",
       "verdict": "clone of strk1800",
-      "spotExpiry": "",
-      "outcome": "",
+      "spotExpiry": "1914",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
       "open": false
@@ -284,7 +284,7 @@
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 12,
