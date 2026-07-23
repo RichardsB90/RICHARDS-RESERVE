@@ -150,11 +150,11 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "clone of strk1825",
-      "spotExpiry": "",
-      "outcome": "",
+      "spotExpiry": "1930",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 15,
