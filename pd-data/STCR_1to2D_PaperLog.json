@@ -333,7 +333,7 @@
       "confidence": "4",
       "verdict": "clone of strk1750, buffer pass, high L, good dist",
       "spotExpiry": "1915",
-      "outcome": "",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
       "open": false
