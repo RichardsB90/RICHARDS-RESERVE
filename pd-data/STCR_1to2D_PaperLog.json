@@ -124,11 +124,11 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "clone of 1800",
-      "spotExpiry": "",
-      "outcome": "",
+      "spotExpiry": "1914",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 18,
@@ -154,7 +154,7 @@
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 17,
