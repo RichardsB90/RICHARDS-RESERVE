@@ -32,6 +32,11 @@
         "id": 8,
         "text": "premium, collateral",
         "done": false
+      },
+      {
+        "id": 9,
+        "text": "calc/open trade autofil",
+        "done": false
       }
     ],
     "4": []
@@ -48,5 +53,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 9
+  "nextId": 10
 }
