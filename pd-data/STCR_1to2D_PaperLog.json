@@ -150,11 +150,11 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "poor buffer due to asset at peak range, going by spot to strk",
-      "spotExpiry": "",
-      "outcome": "",
+      "spotExpiry": "1914",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 17,
