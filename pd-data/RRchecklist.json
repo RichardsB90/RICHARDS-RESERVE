@@ -19,11 +19,6 @@
         "done": false
       },
       {
-        "id": 5,
-        "text": "$number with vol",
-        "done": false
-      },
-      {
         "id": 6,
         "text": "log update expire date and past pending",
         "done": false
