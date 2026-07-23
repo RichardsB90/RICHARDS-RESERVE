@@ -488,10 +488,10 @@
       "confidence": "4",
       "verdict": "1strk less for better risk, buffer pass, good L",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": false,
+      "open": true,
       "zone": "1725-1750"
     },
     {
