@@ -281,10 +281,10 @@
       "confidence": "3",
       "verdict": "asset at peak range, small support below spot but not official, strks near strng support due to peak range",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 12,
