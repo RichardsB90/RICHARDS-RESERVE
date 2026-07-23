@@ -19,12 +19,12 @@
       "spread": "5",
       "supres": "1837",
       "confidence": "4",
-      "verdict": "spot at peak",
+      "verdict": "spot at peak range OB",
       "spotExpiry": "",
       "outcome": "",
       "outcomeNote": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 22,
