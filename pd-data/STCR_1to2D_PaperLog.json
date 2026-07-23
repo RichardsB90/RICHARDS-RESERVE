@@ -463,10 +463,10 @@
       "confidence": "4",
       "verdict": "clone of strk1725",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 3,
@@ -491,7 +491,7 @@
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": true,
+      "open": false,
       "zone": "1725-1750"
     },
     {
