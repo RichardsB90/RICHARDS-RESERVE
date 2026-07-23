@@ -280,8 +280,8 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "clone of strk1750, huge scrape, high L, safe risk",
-      "spotExpiry": "",
-      "outcome": "",
+      "spotExpiry": "1915",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
       "open": false
@@ -310,7 +310,7 @@
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 9,
