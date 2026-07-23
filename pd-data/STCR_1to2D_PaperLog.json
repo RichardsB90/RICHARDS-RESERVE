@@ -284,7 +284,7 @@
       "outcome": "W",
       "outcomeNote": "W via range peak",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 10,
@@ -308,9 +308,9 @@
       "verdict": "clone of strk1750",
       "spotExpiry": "1915",
       "outcome": "W",
-      "outcomeNote": "",
+      "outcomeNote": "W via range peak",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 9,
