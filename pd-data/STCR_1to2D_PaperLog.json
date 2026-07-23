@@ -12,7 +12,7 @@
       "failStrike": "1750",
       "spot": "1914",
       "delta": "-.002",
-      "chainIv": "",
+      "chainIv": "43",
       "strikeIv": "",
       "bid": "",
       "bidSize": "",
