@@ -306,7 +306,7 @@
       "supres": "1837",
       "confidence": "4",
       "verdict": "clone of strk1750",
-      "spotExpiry": "1915",
+      "spotExpiry": "1930",
       "outcome": "W",
       "outcomeNote": "W via range peak",
       "premium": "",
@@ -336,7 +336,7 @@
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 8,
