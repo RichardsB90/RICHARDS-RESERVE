@@ -258,7 +258,7 @@
       "outcome": "W",
       "outcomeNote": "W via range peak",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 11,
@@ -310,7 +310,7 @@
       "outcome": "W",
       "outcomeNote": "W via range peak",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 9,
@@ -336,7 +336,7 @@
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 8,
@@ -358,7 +358,7 @@
       "supres": "1837",
       "confidence": "3",
       "verdict": "buffer caution, logged Fstrk more narrow, high L, ",
-      "spotExpiry": "1915",
+      "spotExpiry": "1930",
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
@@ -466,7 +466,7 @@
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 3,
