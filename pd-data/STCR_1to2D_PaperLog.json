@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "id": 23,
+      "number": 23,
+      "date": "2026-07-23",
+      "expiry": "",
+      "asset": "ETH",
+      "contractType": "Linear",
+      "zone": "",
+      "strike": "",
+      "failStrike": "",
+      "spot": "",
+      "delta": "",
+      "chainIv": "",
+      "strikeIv": "",
+      "bid": "",
+      "bidSize": "",
+      "spread": "",
+      "supres": "",
+      "confidence": "",
+      "verdict": "",
+      "spotExpiry": "",
+      "outcome": "",
+      "outcomeNote": "",
+      "premium": "",
+      "open": false
+    },
+    {
       "id": 22,
       "number": 22,
       "date": "2026-07-23",
@@ -24,7 +50,7 @@
       "outcome": "NT",
       "outcomeNote": "missed chain, stops at 1800",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 21,
@@ -573,5 +599,5 @@
       "zone": ""
     }
   ],
-  "nextId": 23
+  "nextId": 24
 }
