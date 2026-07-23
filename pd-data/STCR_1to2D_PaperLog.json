@@ -359,10 +359,10 @@
       "confidence": "3",
       "verdict": "buffer caution, logged Fstrk more narrow, high L, ",
       "spotExpiry": "",
-      "outcome": "",
+      "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 7,
@@ -466,7 +466,7 @@
       "outcome": "W",
       "outcomeNote": "",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 3,
