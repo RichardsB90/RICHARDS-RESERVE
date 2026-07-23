@@ -21,8 +21,8 @@
       "confidence": "",
       "verdict": "",
       "spotExpiry": "",
-      "outcome": "",
-      "outcomeNote": "",
+      "outcome": "NT",
+      "outcomeNote": "missed chain, stops at 1800",
       "premium": "",
       "open": true
     },
