@@ -254,11 +254,11 @@
       "supres": "1837",
       "confidence": "3",
       "verdict": "peak range for asset, poor buffer large spot-strk dis",
-      "spotExpiry": "1915",
+      "spotExpiry": "1930",
       "outcome": "W",
       "outcomeNote": "W via range peak",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 11,
@@ -310,7 +310,7 @@
       "outcome": "W",
       "outcomeNote": "W via range peak",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 9,
