@@ -176,11 +176,11 @@
       "supres": "1837",
       "confidence": "3",
       "verdict": "poor buffer due to asset peak of range",
-      "spotExpiry": "",
-      "outcome": "",
-      "outcomeNote": "",
+      "spotExpiry": "1930",
+      "outcome": "W",
+      "outcomeNote": "W via range peak",
       "premium": "",
-      "open": false
+      "open": true
     },
     {
       "id": 14,
@@ -310,7 +310,7 @@
       "outcome": "W",
       "outcomeNote": "W via range peak",
       "premium": "",
-      "open": true
+      "open": false
     },
     {
       "id": 9,
