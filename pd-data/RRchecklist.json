@@ -37,6 +37,11 @@
         "id": 9,
         "text": "calc/open trade autofil",
         "done": false
+      },
+      {
+        "id": 10,
+        "text": "total contracts, premium per cont, total premium",
+        "done": false
       }
     ],
     "4": []
@@ -53,5 +58,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 10
+  "nextId": 11
 }
