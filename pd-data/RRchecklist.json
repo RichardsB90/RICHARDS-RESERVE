@@ -47,6 +47,11 @@
         "id": 11,
         "text": "safety upgrades",
         "done": false
+      },
+      {
+        "id": 12,
+        "text": "data collection tool only",
+        "done": false
       }
     ],
     "4": []
@@ -63,5 +68,5 @@
     "3": false,
     "4": false
   },
-  "nextId": 12
+  "nextId": 13
 }
